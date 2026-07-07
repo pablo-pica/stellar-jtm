@@ -123,20 +123,26 @@ export default function Dashboard() {
     if (!recipient || !amount) return;
 
     if (!validateStellarAddress(recipient)) {
-      setTxError("Invalid recipient address. Stellar addresses start with 'G' followed by 55 characters.");
+      const errMsg = "Invalid recipient address. Stellar addresses start with 'G' followed by 55 characters.";
+      setTxError(errMsg);
       setTxStatus("failed");
+      showToast(errMsg, "error");
       return;
     }
 
     if (Number(amount) <= 0) {
-      setTxError("Amount must be greater than 0.");
+      const errMsg = "Amount must be greater than 0.";
+      setTxError(errMsg);
       setTxStatus("failed");
+      showToast(errMsg, "error");
       return;
     }
 
     if (Number(amount) > Number(balance)) {
-      setTxError("Insufficient XLM balance.");
+      const errMsg = "Insufficient XLM balance.";
+      setTxError(errMsg);
       setTxStatus("failed");
+      showToast(errMsg, "error");
       return;
     }
 
