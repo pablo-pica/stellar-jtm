@@ -131,7 +131,7 @@ export default function Dashboard() {
       let hash = "";
       if (isRouted) {
         // Routed contract call
-        const XLM_SAC_ADDRESS = "CDLZFC3SYJYDZT7K67VZ75HPJGWGN6XXU25MQKERUGYDUYZ6IPPGLURK";
+        const XLM_SAC_ADDRESS = "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC";
         const path = [XLM_SAC_ADDRESS, XLM_SAC_ADDRESS];
         const slipVal = parseFloat(slippage) || 1.0;
         const minAmountOut = (parseFloat(amount) * (100 - slipVal) / 100).toFixed(7);
