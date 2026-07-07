@@ -7,9 +7,9 @@ This is a living document updated autonomously by agents at the end of each task
 ## ⚡ Active Task
 
 ```yaml
-Current Task: "Audit Phase 1 (White Belt) Compliance"
-Assigned Agent: Checker
-Status: Active
+Current Task: "Enhance root README.md for judge evaluation"
+Assigned Agent: Builder
+Status: Completed
 ```
 
 ---
@@ -104,3 +104,4 @@ During the compliance audit of Phase 1 (White Belt), the following required chec
 - **Builder**: Optimized ProfileDrawer width for mobile UX to exactly 80% viewport width with a 20% overlay margin on the left. Added unit test checking layout class constraints.
 - **Checker**: Audited Phase 1 (White Belt) compliance. Verified static files and confirmed existence of required wallet hooks, components, and layout files. Verified git logs contain 14 commits (exceeding the target). Ran frontend test suite and confirmed 7/7 tests passed successfully (including the new ProfileDrawer layout and viewport constraint tests). Verified environment configs in `.env.example` and `.env.local` are correct. Retained warnings for missing user-dependent screenshots and Vercel/Loom deployment assets. Status: **Warning: Missing User-dependent Assets**.
 - **Checker**: Audited Phase 1 (White Belt) compliance. Verified static files and confirmed existence of required hooks, components, and layout files. Verified git logs contain 16 commits (exceeding the target). Ran frontend test suite with Vitest and confirmed 9/9 tests passed successfully (including layout, viewport, and transaction list overflow constraints). Verified that the 4 required screenshots are present in `docs/assets/`. Updated `docs/PROGRESS.md` to check off the screenshot task and removed the screenshot warning. Kept warning for the Vercel deployment placeholder link. Status: **Warning: Missing Deployment**.
+- **Builder**: Overhauled root README.md for judge evaluation, mapping Aethyr's core value proposition, architecture flows, 9/9 Vitest testing achievements with pre-commit security gating, quickstart configs, and gantt milestone roadmaps. Verified all tests pass.
