@@ -1,7 +1,22 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import React from "react";
 import fs from "fs";
 import path from "path";
+
+vi.mock("@/hooks/useStellarWallet", () => ({
+  useStellarWallet: () => ({
+    isConnected: false,
+    address: null,
+    balance: null,
+    error: null,
+    isLoading: false,
+    connect: () => {},
+    disconnect: () => {},
+    sendXLM: () => {},
+    routePayment: () => {},
+  }),
+}));
+
 import Dashboard from "./page";
 
 describe("Dashboard Page Background Style & Layout Tests", () => {

@@ -70,7 +70,7 @@ export default function ProfileDrawer({
                 <div className="p-4 rounded-xl bg-space-900/50 border border-space-700/40 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-                      Connected via Freighter
+                      Connected via Wallets Kit
                     </span>
                     <span className="flex items-center gap-1 text-[10px] text-emerald-400 font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                       <ShieldCheck className="w-3 h-3" />
@@ -207,7 +207,7 @@ export default function ProfileDrawer({
                 <div>
                   <h3 className="text-sm font-semibold text-slate-200">No Wallet Connected</h3>
                   <p className="text-xs text-slate-400 mt-1 max-w-[200px] mx-auto">
-                    Connect your Freighter extension to view balances and make transactions.
+                    Connect a Stellar wallet to view balances and make transactions.
                   </p>
                 </div>
               </div>

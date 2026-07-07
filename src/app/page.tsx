@@ -17,7 +17,7 @@ import {
   Layers,
   Search,
 } from "lucide-react";
-import { useFreighter } from "@/hooks/useFreighter";
+import { useStellarWallet } from "@/hooks/useStellarWallet";
 import dynamic from "next/dynamic";
 const WalletConnect = dynamic(() => import("@/components/WalletConnect"), {
   ssr: false,
@@ -49,7 +49,8 @@ export default function Dashboard() {
     connect,
     disconnect,
     sendXLM,
-  } = useFreighter();
+    routePayment,
+  } = useStellarWallet();
 
   // Tab routing view state
   const [activeTab, setActiveTab] = useState<TabId>("send");
@@ -64,6 +65,7 @@ export default function Dashboard() {
   const [txStatus, setTxStatus] = useState<"idle" | "sending" | "success" | "failed">("idle");
   const [txHash, setTxHash] = useState("");
   const [txError, setTxError] = useState("");
+  const [isRouted, setIsRouted] = useState(true);
 
   // Settings states
   const [slippage, setSlippage] = useState("1.0");
@@ -126,20 +128,39 @@ export default function Dashboard() {
     setTxHash("");
 
     try {
-      const result = await sendXLM(recipient, amount);
-      setTxHash(result.hash);
+      let hash = "";
+      if (isRouted) {
+        // Routed contract call
+        const XLM_SAC_ADDRESS = "CDLZFC3SYJYDZT7K67VZ75HPJGWGN6XXU25MQKERUGYDUYZ6IPPGLURK";
+        const path = [XLM_SAC_ADDRESS, XLM_SAC_ADDRESS];
+        const slipVal = parseFloat(slippage) || 1.0;
+        const minAmountOut = (parseFloat(amount) * (100 - slipVal) / 100).toFixed(7);
+        
+        const result = await routePayment(recipient, path, amount, minAmountOut);
+        hash = result.hash;
+      } else {
+        // Direct XLM payment
+        const result = await sendXLM(recipient, amount);
+        hash = result.hash;
+      }
+
+      setTxHash(hash);
       setTxStatus("success");
       
       // Add transaction to the activity log dynamically
       const newTx: TransactionItem = {
         id: `tx-${Date.now()}`,
-        type: "send",
+        type: isRouted ? "swap" : "send",
         status: "success",
         timestamp: "Just now",
         amountIn: amount,
         assetIn: "XLM",
-        txHash: result.hash,
-        description: `Transfer to ${recipient.slice(0, 4)}...${recipient.slice(-4)}`,
+        amountOut: isRouted ? amount : undefined,
+        assetOut: isRouted ? "XLM" : undefined,
+        txHash: hash,
+        description: isRouted 
+          ? `Routed payment to ${recipient.slice(0, 4)}...${recipient.slice(-4)}`
+          : `Direct transfer to ${recipient.slice(0, 4)}...${recipient.slice(-4)}`,
       };
       setTransactions((prev) => [newTx, ...prev]);
 
@@ -328,10 +349,35 @@ export default function Dashboard() {
                           XLM
                         </div>
                       </div>
-                    </div>
                   </div>
 
-                  {/* Send Button */}
+                  {/* Routing Type Selection */}
+                  <div className="p-3.5 rounded-xl bg-space-900/40 border border-space-700/30 flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <span className="text-xs font-semibold text-slate-200">
+                        Route via Soroban Contract
+                      </span>
+                      <p className="text-[10px] text-slate-400">
+                        Swaps and executes payment through on-chain router
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsRouted(!isRouted)}
+                      className={`w-10 h-6 rounded-full transition-colors relative outline-none border border-space-700 ${
+                        isRouted ? "bg-primary-indigo" : "bg-space-850"
+                      }`}
+                    >
+                      <span
+                        className={`w-4 h-4 rounded-full bg-white absolute top-0.5 transition-transform ${
+                          isRouted ? "left-5" : "left-1"
+                        }`}
+                      />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Send Button */}
                   <button
                     type="submit"
                     disabled={sendLoading}
