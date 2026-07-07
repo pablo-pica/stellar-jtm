@@ -85,3 +85,13 @@ Aethyr is designed from Day 1 to be a **Mobile-First PWA** resembling a native i
   - Maintain clean interfaces (`traits`) for contract APIs.
   - Use descriptive names for contract methods: `snake_case` (standard Rust).
   - Document all public contract methods with docstrings.
+
+---
+
+## 🔍 Context7 Documentation Lookup Rules
+To prevent outdated or hallucinated API patterns:
+1. **JavaScript/TypeScript SDK**: Query `/stellar/js-stellar-sdk` using the `context7` MCP server before writing wallet connections or transaction builders.
+2. **Stellar Wallets Kit**: Query `/creit-tech/stellar-wallets-kit` to verify exact modal options, browser extension detections, and events.
+3. **Soroban Smart Contracts**: Query `/stellar/rs-soroban-sdk` to look up correct macro interfaces (e.g. `#[contract]`, `#[contractimpl]`), environment storage structures, and test helpers.
+4. **General Developer Docs**: Query `/websites/developers_stellar` for network parameters, Horizon HTTP endpoint schemas, and DEX orderbook structures.
+5. **Lookup Requirement**: Always resolve the library ID first, then execute a targeted documentation search query. Do not write raw code from memory if you are unsure of the signatures.
