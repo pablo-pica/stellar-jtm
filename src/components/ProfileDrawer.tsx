@@ -45,9 +45,9 @@ export default function ProfileDrawer({
         onClick={onClose}
       />
 
-      <div className="absolute inset-y-0 right-0 flex max-w-full pl-10">
+      <div className="absolute inset-y-0 right-0 flex w-[80%]">
         {/* Drawer Panel */}
-        <div className="w-screen max-w-md transform transition-transform duration-300 ease-out glass-panel border-l border-space-700/50 flex flex-col">
+        <div className="w-full transform transition-transform duration-300 ease-out glass-panel border-l border-space-700/50 flex flex-col">
           {/* Header */}
           <div className="px-6 py-5 border-b border-space-700/30 flex items-center justify-between">
             <h2 className="font-display text-lg font-semibold text-slate-100 flex items-center gap-2">

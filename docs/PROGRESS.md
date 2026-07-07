@@ -7,9 +7,9 @@ This is a living document updated autonomously by agents at the end of each task
 ## ⚡ Active Task
 
 ```yaml
-Current Task: "Audit Phase 1 (White Belt) Compliance"
-Assigned Agent: Checker
-Status: Warning: Missing User Assets
+Current Task: "Optimize ProfileDrawer width for mobile UX"
+Assigned Agent: Builder
+Status: Completed
 ```
 
 ---
@@ -106,3 +106,4 @@ During the compliance audit of Phase 1 (White Belt), the following required chec
 - **Checker**: Audited Phase 1 (White Belt) again. Verified that static files are correct, git log contains 8 commits with Conventional Commit format (meeting the 3+ commit target), and the frontend test suite runs successfully with 2/2 tests passing. However, required screenshots and live Vercel/Loom assets are missing from the project directory. Status updated to 'Warning: Missing Assets'.
 - **Builder**: Adjusted browser background contrast in page.tsx and updated ProfileDrawer positioning from fixed to absolute to constrain it to the mobile mockup. Added corresponding Vitest unit tests and configuration.
 - **Checker**: Audited Phase 1 (White Belt) compliance again. Checked static files and confirmed existence of required wallet hook and page components. Verified git logs now contain 12 commits (including the Builder's new UX and test additions). Ran the frontend test suite with Vitest and confirmed all 6/6 tests passed successfully. Updated `docs/PROGRESS.md` to remove the warning for `banner.png` (which is present) and kept warnings for the remaining user-specific screenshots and Vercel/Loom deployment assets. Status: **Warning: Missing User-dependent Assets**.
+- **Builder**: Optimized ProfileDrawer width for mobile UX to exactly 80% viewport width with a 20% overlay margin on the left. Added unit test checking layout class constraints.
