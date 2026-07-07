@@ -43,7 +43,7 @@ During the initial engineering phase, we successfully established a production-g
 
 ## 🎬 Live Demo & Presentation
 
-* 🌐 **Live Application**: [Aethyr on Vercel](https://your-vercel-link.vercel.app)
+* 🌐 **Live Application**: [Aethyr on Vercel](https://aethyr-pica.vercel.app/)
 * 🎥 **Video Walkthrough (1-2 Min)**: [Aethyr Demo Video](https://loom.com/your-video-link)
 
 ---
