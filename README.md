@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/pablo-pica/stellar-jtm/actions"><img src="https://github.com/pablo-pica/stellar-jtm/actions/workflows/ci.yml/badge.svg" alt="Build Status"></a>
+  <a href="https://github.com/pablo-pica/aethyr/actions"><img src="https://github.com/pablo-pica/aethyr/actions/workflows/ci.yml/badge.svg" alt="Build Status"></a>
   <img src="https://img.shields.io/badge/Stellar-Testnet-blue?style=flat-square&logo=stellar" alt="Network">
   <img src="https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=nextdotjs" alt="Next.js">
   <img src="https://img.shields.io/badge/Tailwind-v4-38bdf8?style=flat-square&logo=tailwindcss" alt="Styling">
@@ -34,7 +34,7 @@ Traditional international remittance networks impose significant overhead throug
 
 During the initial engineering phase, we successfully established a production-grade infrastructure:
 
-* 🦊 **Freighter Wallet Hooks**: Developed a modular custom hook [useFreighter.ts](file:///home/pablo-pica/Documents/programming/stellar-jtm/src/hooks/useFreighter.ts) that manages connection states, checks network compatibility, and interfaces with the Freighter browser extension API.
+* 🦊 **Freighter Wallet Hooks**: Developed a modular custom hook [useFreighter.ts](file:///home/pablo-pica/Documents/programming/aethyr/src/hooks/useFreighter.ts) that manages connection states, checks network compatibility, and interfaces with the Freighter browser extension API.
 * 🪙 **Native Testnet Transfers**: Fully integrated native XLM transfers with real-time balance queries via Stellar Horizon APIs, complete with transaction builders and user signing flows.
 * 📱 **PWA-Ready Layout**: Created an installable Progressive Web App layout. Key styling features include safe notched margins (`env(safe-area-inset-*)` calculated dynamically in CSS) and a glassmorphic sidebar profile drawer designed specifically for mobile viewports.
 * 🧪 **Robust Test Suite (9/9)**: Delivered comprehensive integration and unit tests covering wallet components, profile drawer layouts, and utilities. Active pre-commit security hooks prevent key leaks and run test suites before every commit.
@@ -75,7 +75,7 @@ The client queries Horizon endpoints to identify active market makers while the 
 Below is a map of the repository's directory layout to assist in codebase evaluation:
 
 ```text
-stellar-jtm/
+aethyr/
 ├── .agents/                 # Developer agents instruction and status trackers
 ├── docs/                    # Design documentation, architecture files, and submission assets
 │   ├── assets/              # Interface screenshots and project banners
@@ -106,12 +106,12 @@ stellar-jtm/
 ```
 
 Here are the key implementation files:
-* [page.tsx](file:///home/pablo-pica/Documents/programming/stellar-jtm/src/app/page.tsx): The primary container UI managing viewports, notched margin wrappers, tabs, and form submissions.
-* [useFreighter.ts](file:///home/pablo-pica/Documents/programming/stellar-jtm/src/hooks/useFreighter.ts): Core wallet connection logic encapsulating network detection and sign/transfer commands.
-* [ProfileDrawer.tsx](file:///home/pablo-pica/Documents/programming/stellar-jtm/src/components/ProfileDrawer.tsx): Side drawer container tracking wallet addresses and balance states.
-* [BottomNav.tsx](file:///home/pablo-pica/Documents/programming/stellar-jtm/src/components/BottomNav.tsx): PWA layout switcher component handling navigation tabs.
-* [pre-commit.sh](file:///home/pablo-pica/Documents/programming/stellar-jtm/scripts/pre-commit.sh): Custom git commit guard running automated test sweeps and Stellar seed regex leak filters.
-* [vitest.config.ts](file:///home/pablo-pica/Documents/programming/stellar-jtm/vitest.config.ts): Configure JS DOM environment parameters for React rendering tests.
+* [page.tsx](file:///home/pablo-pica/Documents/programming/aethyr/src/app/page.tsx): The primary container UI managing viewports, notched margin wrappers, tabs, and form submissions.
+* [useFreighter.ts](file:///home/pablo-pica/Documents/programming/aethyr/src/hooks/useFreighter.ts): Core wallet connection logic encapsulating network detection and sign/transfer commands.
+* [ProfileDrawer.tsx](file:///home/pablo-pica/Documents/programming/aethyr/src/components/ProfileDrawer.tsx): Side drawer container tracking wallet addresses and balance states.
+* [BottomNav.tsx](file:///home/pablo-pica/Documents/programming/aethyr/src/components/BottomNav.tsx): PWA layout switcher component handling navigation tabs.
+* [pre-commit.sh](file:///home/pablo-pica/Documents/programming/aethyr/scripts/pre-commit.sh): Custom git commit guard running automated test sweeps and Stellar seed regex leak filters.
+* [vitest.config.ts](file:///home/pablo-pica/Documents/programming/aethyr/vitest.config.ts): Configure JS DOM environment parameters for React rendering tests.
 
 ---
 
@@ -144,8 +144,8 @@ Ensure you have the following installed:
 ### 2. Project Installation
 ```bash
 # Clone the repository
-git clone https://github.com/pablo-pica/stellar-jtm.git
-cd stellar-jtm
+git clone https://github.com/pablo-pica/aethyr.git
+cd aethyr
 
 # Install project dependencies
 npm install
@@ -157,7 +157,7 @@ Duplicate the example environment file:
 cp .env.example .env.local
 ```
 
-Open [env.local](file:///home/pablo-pica/Documents/programming/stellar-jtm/.env.local) and customize its parameters:
+Open [env.local](file:///home/pablo-pica/Documents/programming/aethyr/.env.local) and customize its parameters:
 * `NEXT_PUBLIC_STELLAR_NETWORK`: Configures the target chain network. Set to `TESTNET` for public testing.
 * `NEXT_PUBLIC_STELLAR_RPC_URL`: The RPC endpoint used for Horizon queries (e.g., `https://soroban-testnet.stellar.org:443`).
 * `NEXT_PUBLIC_ROUTER_CONTRACT_ID`: The deployed Soroban router contract address (`CB...`).
@@ -200,7 +200,7 @@ gantt
 ```
 
 ### ⚪ White Belt: Foundational PWA Container (Completed)
-* **Freighter wallet** connection hook integration ([useFreighter.ts](file:///home/pablo-pica/Documents/programming/stellar-jtm/src/hooks/useFreighter.ts)).
+* **Freighter wallet** connection hook integration ([useFreighter.ts](file:///home/pablo-pica/Documents/programming/aethyr/src/hooks/useFreighter.ts)).
 * Native Testnet XLM balance queries and transfer transaction builders.
 * Glassmorphic Profile Drawer side container with full responsive mockup.
 * Completed 9/9 Vitest test suite with active pre-commit security scans.

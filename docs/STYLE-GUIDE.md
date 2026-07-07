@@ -9,7 +9,7 @@ This document establishes development conventions, directory layouts, naming sta
 The project follows a standard Next.js workspace structure, with smart contracts contained in a subfolder.
 
 ```
-stellar-jtm/
+aethyr/
 ├── contracts/               # Soroban Smart Contracts (Rust)
 │   ├── aethyr-router/       # Router contract
 │   │   ├── src/

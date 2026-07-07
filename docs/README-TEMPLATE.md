@@ -16,7 +16,7 @@ This template defines the layout and content for the final repository README. As
 </p>
 
 <p align="center">
-  <a href="https://github.com/pablo-pica/stellar-jtm/actions"><img src="https://github.com/pablo-pica/stellar-jtm/actions/workflows/ci.yml/badge.svg" alt="Build Status"></a>
+  <a href="https://github.com/pablo-pica/aethyr/actions"><img src="https://github.com/pablo-pica/aethyr/actions/workflows/ci.yml/badge.svg" alt="Build Status"></a>
   <img src="https://img.shields.io/badge/Stellar-Testnet-blue" alt="Network">
   <img src="https://img.shields.io/badge/Soroban-v21-orange" alt="Smart Contracts">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
@@ -101,8 +101,8 @@ cargo install --locked stellar-cli
 ### 2. Installation & Setup
 ```bash
 # Clone the repository
-git clone https://github.com/pablo-pica/stellar-jtm.git
-cd stellar-jtm
+git clone https://github.com/pablo-pica/aethyr.git
+cd aethyr
 
 # Install dependencies
 npm install

@@ -152,7 +152,7 @@ Deploy the Next.js frontend using the Vercel Dashboard or CLI:
 ### Option A: Vercel Dashboard (Recommended)
 1. Push your repository code to GitHub.
 2. Go to the [Vercel Dashboard](https://vercel.com).
-3. Click **New Project** and import the `stellar-jtm` repository.
+3. Click **New Project** and import the `aethyr` repository.
 4. Expand **Environment Variables** and paste the keys from your `.env.local` file.
 5. Click **Deploy**. Vercel will automatically trigger preview deploys on every PR and production deploys on main branch commits.
 
