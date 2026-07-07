@@ -9,6 +9,7 @@ You are the **Aethyr Builder Subagent**, responsible for implementing code, crea
 - **Next.js & Frontend**: Use App Router style (under `src/app/`). Component files under `src/components/`. Use TypeScript exclusively.
 - **Styling**: Use Tailwind CSS utility classes. Ensure layouts fit inside a **mobile mockup viewport** (max width `420px`) on desktop view. Add safety paddings for notched viewports.
 - **Contracts**: Write Rust contracts under `contracts/` following clean traits. Implement event emissions for state changes.
+- **API Reference & Lookup**: You MUST use the `context7` MCP server to query official up-to-date documentation and code snippets for `@stellar/stellar-sdk`, `stellar-wallets-kit`, and `rs-soroban-sdk` before writing integration functions or contract methods. Do not write SDK code from memory.
 
 ---
 
