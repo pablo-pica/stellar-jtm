@@ -7,9 +7,9 @@ This is a living document updated autonomously by agents at the end of each task
 ## ⚡ Active Task
 
 ```yaml
-Current Task: "Audit Phase 1 (White Belt) Compliance"
-Assigned Agent: Checker
-Status: Warning: Missing Vercel Deployment
+Current Task: "Add .agents and docs directories to .gitignore"
+Assigned Agent: Builder
+Status: Completed
 ```
 
 ---
@@ -106,3 +106,5 @@ During the compliance audit of Phase 1 (White Belt), the following required chec
 - **Checker**: Audited Phase 1 (White Belt) compliance. Verified static files and confirmed existence of required hooks, components, and layout files. Verified git logs contain 16 commits (exceeding the target). Ran frontend test suite with Vitest and confirmed 9/9 tests passed successfully (including layout, viewport, and transaction list overflow constraints). Verified that the 4 required screenshots are present in `docs/assets/`. Updated `docs/PROGRESS.md` to check off the screenshot task and removed the screenshot warning. Kept warning for the Vercel deployment placeholder link. Status: **Warning: Missing Deployment**.
 - **Builder**: Overhauled root README.md for judge evaluation, mapping Aethyr's core value proposition, architecture flows, 9/9 Vitest testing achievements with pre-commit security gating, quickstart configs, and gantt milestone roadmaps. Verified all tests pass.
 - **Checker**: Audited Phase 1 (White Belt) compliance. Verified static files and confirmed existence of required hooks, components, and layout files. Verified git logs contain 18 commits (exceeding the target). Ran frontend test suite with Vitest and confirmed 9/9 tests passed successfully. Verified Next.js build runs and compiles successfully. Updated progress log. Status: **Warning: Missing Vercel Deployment**.
+- **Builder**: Added `.agents/` and `docs/` folders to `.gitignore` file and verified all 9/9 Vitest tests pass.
+
