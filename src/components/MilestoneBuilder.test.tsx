@@ -33,10 +33,9 @@ describe("MilestoneBuilder Component Tests", () => {
 
     // Weight input width and styling
     expect(fileContent).toContain("flex items-center justify-between gap-4 mt-2 p-3 bg-slate-900/40 rounded-xl border border-slate-800/40");
-    expect(fileContent).toContain("w-[136px]");
+    expect(fileContent).toContain("w-[160px]");
     expect(fileContent).toContain("<CustomNumberInput");
     expect(fileContent).toContain("text-xs text-slate-500 font-mono select-none");
-    expect(fileContent).toContain("size=\"lg\"");
 
     // Remove button small trash icon (red styled)
     expect(fileContent).toContain("p-2 rounded-lg hover:bg-red-500/10 text-red-500 hover:text-red-400");

@@ -79,14 +79,13 @@ function MilestoneRow({
         <div className="flex items-center justify-between gap-4 mt-2 p-3 bg-slate-900/40 rounded-xl border border-slate-800/40">
           <div className="flex items-center gap-2">
             <span className="text-xs text-slate-400 font-medium">Weight:</span>
-            <div className="w-[136px]">
+            <div className="w-[160px]">
               <CustomNumberInput
                 value={Number((milestone.payout_weight / 100).toFixed(2)).toString()}
                 onChange={onUpdateWeight}
                 min={0}
                 max={100}
                 step={1}
-                size="lg"
                 disabled={autoBalance}
               />
             </div>
