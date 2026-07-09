@@ -118,41 +118,41 @@ export default function MilestoneBuilder({ milestones, onChange }: MilestoneBuil
         ) : (
           milestones.map((m, idx) => (
             <div key={idx} className="py-3.5 border-b border-space-800/80 space-y-2.5 last:border-b-0">
-              {/* Description Input & Delete Button Row */}
-              <div className="flex gap-2.5 items-center">
-                <span className="text-xs font-mono text-slate-500 w-5 text-right shrink-0">{idx + 1}.</span>
-                <input
-                  type="text"
-                  value={m.description}
-                  onChange={(e) => handleUpdateDescription(idx, e.target.value)}
-                  placeholder="Milestone description"
-                  className="flex-1 min-w-0 h-10 bg-slate-900 border border-slate-800 focus:border-teal-500/35 rounded-xl px-3 text-xs text-slate-200 outline-none transition-all focus-ring"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleRemoveMilestone(idx)}
-                  className="p-2 rounded-xl hover:bg-red-500/10 text-slate-500 hover:text-red-400 active:scale-90 transition-all cursor-pointer focus-ring shrink-0"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-
-              {/* Weight Input Row */}
-              <div className="flex items-center justify-between pl-[30px]">
-                <span className="text-[11px] font-bold text-slate-400">Payout weight:</span>
-                <div className="flex items-center gap-1.5 w-28">
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={Number((m.payout_weight / 100).toFixed(2))}
-                    onChange={(e) => handleUpdateWeight(idx, e.target.value)}
-                    placeholder="0.00"
-                    className="w-full h-10 bg-slate-900 border border-slate-800 focus:border-teal-500/35 rounded-xl px-2.5 text-xs text-slate-200 font-mono text-right outline-none transition-all focus-ring"
-                  />
-                  <span className="text-xs text-slate-500 font-mono select-none">%</span>
-                </div>
-              </div>
-            </div>
+               {/* Description Input & Delete Button Row */}
+               <div className="flex gap-2.5 items-center">
+                 <span className="text-xs font-mono text-slate-500 w-5 text-right shrink-0">{idx + 1}.</span>
+                 <input
+                   type="text"
+                   value={m.description}
+                   onChange={(e) => handleUpdateDescription(idx, e.target.value)}
+                   placeholder="Milestone description"
+                   className="flex-1 min-w-0 h-12 bg-slate-900 border border-slate-800 focus:border-teal-500/35 rounded-xl px-3 text-sm text-slate-200 outline-none transition-all focus-ring"
+                 />
+                 <button
+                   type="button"
+                   onClick={() => handleRemoveMilestone(idx)}
+                   className="p-2 rounded-xl hover:bg-red-500/10 text-slate-500 hover:text-red-400 active:scale-90 transition-all cursor-pointer focus-ring shrink-0"
+                 >
+                   <Trash2 className="w-4 h-4" />
+                 </button>
+               </div>
+ 
+               {/* Weight Input Row */}
+               <div className="flex items-center justify-between pl-[30px]">
+                 <span className="text-[11px] font-bold text-slate-400">Payout weight:</span>
+                 <div className="flex items-center gap-1.5 w-28">
+                   <input
+                     type="number"
+                     step="0.01"
+                     value={Number((m.payout_weight / 100).toFixed(2))}
+                     onChange={(e) => handleUpdateWeight(idx, e.target.value)}
+                     placeholder="0.00"
+                     className="w-full h-12 bg-slate-900 border border-slate-800 focus:border-teal-500/35 rounded-xl px-2.5 text-sm text-slate-200 font-mono text-right outline-none transition-all focus-ring"
+                   />
+                   <span className="text-xs text-slate-500 font-mono select-none">%</span>
+                 </div>
+               </div>
+             </div>
           ))
         )}
       </div>

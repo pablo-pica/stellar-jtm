@@ -30,4 +30,15 @@ describe("ActivityTab Component Layout & Styling Tests", () => {
     expect(fileContent).toContain("containerVariants");
     expect(fileContent).toContain("staggerChildren");
   });
+
+  it("should render premium empty and disconnected states", () => {
+    const filePath = path.resolve(__dirname, "./ActivityTab.tsx");
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+
+    // Premium empty / disconnected state layout details (w-14, h-14, rounded-2xl, icon container)
+    expect(fileContent).toContain("w-14 h-14 rounded-2xl bg-space-900/80 border border-space-700/50 flex items-center justify-center mx-auto shadow-md");
+    expect(fileContent).toContain("text-base font-bold text-slate-100");
+    expect(fileContent).toContain("text-xs text-slate-400 max-w-[240px]");
+    expect(fileContent).toContain("disconnected-state");
+  });
 });

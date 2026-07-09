@@ -33,6 +33,8 @@ interface TransactionItem {
 
 interface ActivityTabProps {
   transactions: TransactionItem[];
+  isConnected?: boolean;
+  connect?: () => void;
 }
 
 const containerVariants = {
@@ -50,7 +52,11 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } },
 };
 
-export default function ActivityTab({ transactions }: ActivityTabProps) {
+export default function ActivityTab({
+  transactions,
+  isConnected = true,
+  connect,
+}: ActivityTabProps) {
   const [expandedTxs, setExpandedTxs] = useState<Record<string, boolean>>({});
 
   const toggleExpand = (id: string) => {
@@ -89,14 +95,39 @@ export default function ActivityTab({ transactions }: ActivityTabProps) {
         </span>
       </h3>
 
-      {transactions.length === 0 ? (
-        <div className="p-8 rounded-2xl glass-card text-center space-y-4" data-testid="activity-empty-state">
-          <div className="w-12 h-12 rounded-full bg-space-900 border border-space-700/50 flex items-center justify-center mx-auto text-slate-400">
-            <ReceiptText className="w-6 h-6 text-teal-400/70" />
+      {!isConnected ? (
+        <div className="p-8 rounded-2xl glass-card text-center space-y-5" data-testid="disconnected-state">
+          <div className="w-14 h-14 rounded-2xl bg-space-900/80 border border-space-700/50 flex items-center justify-center mx-auto shadow-md">
+            <ReceiptText className="w-7 h-7 text-teal-400 animate-pulse-glow" />
           </div>
           <div className="space-y-1">
-            <p className="text-xs font-bold text-slate-200">No transactions yet</p>
-            <p className="text-[10px] text-slate-400 max-w-[200px] mx-auto leading-relaxed">
+            <h3 className="text-base font-bold text-slate-100">
+              Transaction History
+            </h3>
+            <p className="text-xs text-slate-400 max-w-[240px] mx-auto leading-relaxed">
+              Connect your wallet to view your transaction history, swaps and escrow activities.
+            </p>
+          </div>
+          {connect && (
+            <button
+              onClick={connect}
+              type="button"
+              className="w-full h-11 rounded-xl bg-gradient-to-r from-teal-400 to-primary-indigo text-xs font-bold text-white flex items-center justify-center gap-2 active:scale-[0.98] transition-all cursor-pointer focus-ring"
+              data-testid="disconnected-connect-btn"
+            >
+              <ReceiptText className="w-4 h-4" />
+              Connect Wallet
+            </button>
+          )}
+        </div>
+      ) : transactions.length === 0 ? (
+        <div className="p-8 rounded-2xl glass-card text-center space-y-5" data-testid="activity-empty-state">
+          <div className="w-14 h-14 rounded-2xl bg-space-900/80 border border-space-700/50 flex items-center justify-center mx-auto shadow-md">
+            <ReceiptText className="w-7 h-7 text-teal-400 animate-pulse-glow" />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-base font-bold text-slate-100">No transactions yet</h3>
+            <p className="text-xs text-slate-400 max-w-[240px] mx-auto leading-relaxed">
               Send your first payment or lock milestones to see your transaction feed here.
             </p>
           </div>

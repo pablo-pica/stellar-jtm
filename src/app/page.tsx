@@ -648,7 +648,11 @@ export default function Dashboard() {
 
           {/* TAB 3: ACTIVITY FEED */}
           {activeTab === "activity" && txStatus === "idle" && (
-            <ActivityTab transactions={transactions} />
+            <ActivityTab
+              transactions={transactions}
+              isConnected={isConnected}
+              connect={() => setIsWalletPickerOpen(true)}
+            />
           )}
 
           {/* TAB 4: SETTINGS PANEL */}

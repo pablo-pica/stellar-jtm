@@ -7,9 +7,9 @@ This is a living document updated autonomously by agents at the end of each task
 ## ⚡ Active Task
 
 ```yaml
-Current Task: "Mock Wallet Integration & Interactive Frontend Audit"
+Current Task: "Escrow Locks Tab UI/UX Revamp"
 Assigned Agent: Builder
-Status: "Audit Passed"
+Status: "Completed"
 ```
 
 ---
@@ -93,6 +93,12 @@ Status: "Audit Passed"
 ## 📜 Audit Logs
 
 ### 2026-07-10
+- **Builder**: Completed the Escrow Locks Tab UI/UX Revamp:
+  1. Unified Escrow Role Selector: Relocated role selector from individual cards to a header-based, page-level SegmentedControl inside the Active Escrows section, including an informative card block describing duties of the active role.
+  2. Standardized inputs: Standardized form input layouts, height (h-12), and text sizes (text-sm) in both EscrowTab address fields and MilestoneBuilder milestone fields to match the Send tab styling.
+  3. Milestone timeline: Redesigned milestones inside the escrow card accordion as a vertical timeline with connecting lines, state-colored glowing status indicators, and clean right-aligned inline confirmation actions.
+  4. Unified empty and disconnected states: Refined empty and disconnected states across Send, Escrow, and Activity tabs using a premium styling (space-y-5, w-14 h-14 rounded-2xl icon container, text-base title, text-xs description, same CTA button layout).
+  5. Tests: Updated Vitest test suites to cover the updated selector, inputs, and states. Verified all 48 unit tests pass.
 - **Builder**: Resolved design inconsistencies discovered during interactive Playwright browser audit:
   1. Unified card styles by applying `.glass-card` across all tabs (Send, Escrow, Activity, MilestoneBuilder) for perfect aesthetic cohesion.
   2. Overhauled the 'Create Escrow Lock' form into a first-class, non-collapsible card at the top of the Escrow tab.

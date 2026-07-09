@@ -34,4 +34,25 @@ describe("EscrowTab Component Layout & Action Tests", () => {
     expect(fileContent).toContain("handleDisputeMilestone");
     expect(fileContent).toContain("handleRefundEscrow");
   });
+
+  it("should render relocated Role Selector, updated input styles, and premium empty state elements", () => {
+    const filePath = path.resolve(__dirname, "./EscrowTab.tsx");
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+
+    // Relocated Unified Role Selector with idPrefix
+    expect(fileContent).toContain("role-unified");
+    expect(fileContent).toContain("Active Role Duties");
+
+    // Standardized form input style matching SendTab.tsx (h-12, focus-ring)
+    expect(fileContent).toContain("w-full h-12 pl-4 pr-10 rounded-xl bg-space-900/50 border border-space-700/40 focus:border-teal-500/35 text-sm");
+
+    // Premium empty state layout details (w-14, h-14, rounded-2xl, icon container)
+    expect(fileContent).toContain("w-14 h-14 rounded-2xl bg-space-900/80 border border-space-700/50 flex items-center justify-center mx-auto shadow-md");
+    expect(fileContent).toContain("text-base font-bold text-slate-100");
+    expect(fileContent).toContain("text-xs text-slate-400 max-w-[240px]");
+
+    // Vertical milestone timeline elements
+    expect(fileContent).toContain("border-l border-space-800");
+    expect(fileContent).toContain("dotColor");
+  });
 });
