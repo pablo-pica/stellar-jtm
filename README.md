@@ -1,6 +1,6 @@
 # Aethyr Hero Banner
 <p align="center">
-  <img src="./docs/assets/banner.png" alt="Aethyr Banner" width="100%" />
+  <img src="docs/assets/banner.png" alt="Aethyr Banner" width="100%" />
 </p>
 
 <h1 align="center">🌌 Aethyr</h1>
@@ -199,10 +199,10 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 
 | Asset | Screenshot |
 |:------|:----------:|
-| **Wallet connected** — public key/address visible | <img src="./docs/assets/screen1.png" width="220" alt="Wallet Connected"> |
-| **XLM balance** displayed in UI | <img src="./docs/assets/screen2.png" width="220" alt="XLM Balance"> |
-| **Successful testnet transaction** being executed | <img src="./docs/assets/screen3.png" width="220" alt="Transaction Executing"> |
-| **Transaction result** — hash/confirmation shown | <img src="./docs/assets/screen4.png" width="220" alt="Transaction Hash Result"> |
+| **Wallet connected** — public key/address visible | <img src="docs/assets/screen1.png" width="220" alt="Wallet Connected"> |
+| **XLM balance** displayed in UI | <img src="docs/assets/screen2.png" width="220" alt="XLM Balance"> |
+| **Successful testnet transaction** being executed | <img src="docs/assets/screen3.png" width="220" alt="Transaction Executing"> |
+| **Transaction result** — hash/confirmation shown | <img src="docs/assets/screen4.png" width="220" alt="Transaction Hash Result"> |
 
 </details>
 
@@ -236,8 +236,8 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 
 | Asset | Screenshot |
 |:------|:----------:|
-| **Multi-wallet modal** — Freighter, Albedo, xBull visible | <img src="./docs/assets/screen5.png" width="240" alt="Multi-wallet Modal"> |
-| **Contract call status** — pending/success/fail feedback | <img src="./docs/assets/screen6.png" width="240" alt="Contract Tx Status"> |
+| **Multi-wallet modal** — Freighter, Albedo, xBull visible | <img src="docs/assets/screen5.png" width="240" alt="Multi-wallet Modal"> |
+| **Contract call status** — pending/success/fail feedback | <img src="docs/assets/screen6.png" width="240" alt="Contract Tx Status"> |
 
 </details>
 
@@ -281,7 +281,7 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 
 | Asset | Screenshot |
 |:------|:----------:|
-| **Mobile viewport** — responsive UI on small screen | <img src="./docs/assets/screen1.png" width="220" alt="Mobile Viewport"> |
+| **Mobile viewport** — responsive UI on small screen | <img src="docs/assets/screen1.png" width="220" alt="Mobile Viewport"> |
 | **GitHub Actions CI/CD** — green/passing pipeline | *📸 [Pending: push to GitHub, then screenshot the Actions tab]* |
 | **Test suite output** — 11 Rust + 24 Vitest passing | *📸 [Pending: screenshot terminal after running `cargo test` + `npm test`]* |
 | **Video walkthrough** (1-2 min) | *🎥 [Pending: record and upload to Loom/YouTube]* |
