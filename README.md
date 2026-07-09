@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/Stellar-Testnet-blue?style=flat-square&logo=stellar" alt="Network">
   <img src="https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=nextdotjs" alt="Next.js">
   <img src="https://img.shields.io/badge/Tailwind-v4-38bdf8?style=flat-square&logo=tailwindcss" alt="Styling">
-  <img src="https://img.shields.io/badge/Vitest-9%2F9%20Passed-green?style=flat-square&logo=vitest" alt="Vitest Tests">
+  <img src="https://img.shields.io/badge/Vitest-20%2F20%20Passed-green?style=flat-square&logo=vitest" alt="Vitest Tests">
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License">
 </p>
 
@@ -37,7 +37,7 @@ During the initial engineering phase, we successfully established a production-g
 * 🦊 **Freighter Wallet Hooks**: Developed a modular custom hook [useFreighter.ts](file:///home/pablo-pica/Documents/programming/aethyr/src/hooks/useFreighter.ts) that manages connection states, checks network compatibility, and interfaces with the Freighter browser extension API.
 * 🪙 **Native Testnet Transfers**: Fully integrated native XLM transfers with real-time balance queries via Stellar Horizon APIs, complete with transaction builders and user signing flows.
 * 📱 **PWA-Ready Layout**: Created an installable Progressive Web App layout. Key styling features include safe notched margins (`env(safe-area-inset-*)` calculated dynamically in CSS) and a glassmorphic sidebar profile drawer designed specifically for mobile viewports.
-* 🧪 **Robust Test Suite (9/9)**: Delivered comprehensive integration and unit tests covering wallet components, profile drawer layouts, and utilities. Active pre-commit security hooks prevent key leaks and run test suites before every commit.
+* 🧪 **Robust Test Suite (20/20)**: Delivered comprehensive integration and unit tests covering wallet components, profile drawer layouts, and utilities. Active pre-commit security hooks prevent key leaks and run test suites before every commit.
 
 ---
 
@@ -203,7 +203,7 @@ gantt
 * **Freighter wallet** connection hook integration ([useFreighter.ts](file:///home/pablo-pica/Documents/programming/aethyr/src/hooks/useFreighter.ts)).
 * Native Testnet XLM balance queries and transfer transaction builders.
 * Glassmorphic Profile Drawer side container with full responsive mockup.
-* Completed 9/9 Vitest test suite with active pre-commit security scans.
+* Completed 20/20 Vitest test suite with active pre-commit security scans.
 
 ### 🟡 Yellow Belt: Soroban Contracts (Completed)
 * Developed, compiled, and deployed the core `aethyr-router` contract in Rust to Stellar Testnet:
