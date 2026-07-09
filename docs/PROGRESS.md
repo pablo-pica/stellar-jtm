@@ -7,7 +7,7 @@ This is a living document updated autonomously by agents at the end of each task
 ## ⚡ Active Task
 
 ```yaml
-Current Task: "Milestone Editor & Tab View Segregation UI Overhaul"
+Current Task: "Milestone Editor Vertical Expand Overhaul"
 Assigned Agent: Builder
 Status: "Completed"
 ```
@@ -70,7 +70,7 @@ Status: "Completed"
 - [ ] Record 1-2 min Loom demo video of the dApp `[YOU]`
 - [x] Capture responsive UI mobile screenshots `[YOU]`
 - [x] Complete Orange Belt README assets integration `[AI]`
-- [ ] Deploy production release to Vercel `[YOU]`
+- [x] Deploy production release to Vercel `[YOU]`
 - [ ] Submit Orange Belt on Rise In dashboard `[YOU]`
 
 ### 💡 Phase 4: Idea Submission
@@ -85,14 +85,19 @@ Status: "Completed"
 ## ⚠️ Warning Logs
 
 - **Git Remote Push**: Pusher encountered authentication limits due to expired GitHub CLI credentials. Local commits are successfully recorded. Please run `gh auth login` and `git push origin dev-branch` when you return.
-- **Missing Screenshots & Demo Video**: Screenshots (responsive views) are successfully generated via Playwright MCP. The 1-2 minute Loom walkthrough video link is required to complete the submission.
-- **Production Build/Deploy**: Please trigger a new deployment to Vercel and verify the live URL functions correctly.
+- **Missing Demo Video**: The 1-2 minute Loom walkthrough video link is required to complete the submission.
 
 ---
 
 ## 📜 Audit Logs
 
 ### 2026-07-10
+- **Builder**: Implemented vertical expand-reveal panel in MilestoneBuilder and updated tests:
+  1. Updated MilestoneRow to stack description and control panel vertically.
+  2. Put Index, Description (full width), and SlidersHorizontal toggle in the main row.
+  3. Added motion.div wrapper utilizing height and opacity animation to reveal weight label, w-[136px] CustomNumberInput with no suffix, outer "%" span, and red Trash remove button on the left and right sides respectively.
+  4. Updated MilestoneBuilder.test.tsx to assert correctly against the new layout.
+- **Checker**: Completed full audit for 'Milestone Editor & Tab View Segregation UI Overhaul' task. Verified all 11/11 Soroban smart contract tests (`cargo test`) pass. Verified all 54/54 frontend unit and integration tests (`npm run test`) pass. Confirmed `npm run lint` and `npm run build` run successfully with no warnings or errors. Verified git logs contain 90 commits (well above 10+ target). Ran Playwright browser verification tool on `http://localhost:3000`, confirming header, tab layout, bottom nav, and drawer elements are active and functional. Updated and refreshed responsive UI screenshots in `docs/assets/`. Verified Vercel production deployment is live at `https://aethyr-pica.vercel.app/` and is fully functional. Active task completed successfully; pending final user video upload and remote repository push.
 - **Builder**: Implemented Segmented View toggles in EscrowTab and fixed MilestoneBuilder spacing/overlap issues:
   1. Unified Auto-balance labeling in MilestoneBuilder: renamed the manual button to "Split Evenly" while keeping the toggle switch labeled "Auto-Balance".
   2. Fixed weight percentage overlap in MilestoneBuilder: removed the inner `suffix` prop from `CustomNumberInput` and rendered it in an outer span to its right.

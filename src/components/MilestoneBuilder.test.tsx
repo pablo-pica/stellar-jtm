@@ -25,14 +25,15 @@ describe("MilestoneBuilder Component Tests", () => {
     const fileContent = fs.readFileSync(filePath, "utf-8");
 
     // Compact single row container checks
-    expect(fileContent).toContain("flex gap-2 items-center py-2 border-b border-space-800/80 last:border-b-0");
+    expect(fileContent).toContain("flex flex-col py-2 border-b border-space-800/80 last:border-b-0");
+    expect(fileContent).toContain("flex gap-2 items-center");
     
     // Description input styling (h-12 and text-sm)
     expect(fileContent).toContain("flex-1 min-w-0 h-12 bg-slate-900 border border-slate-800 focus:border-teal-500/35 rounded-xl px-3 text-sm");
 
     // Weight input width and styling
-    expect(fileContent).toContain("flex items-center gap-1.5 shrink-0");
-    expect(fileContent).toContain("w-[116px]");
+    expect(fileContent).toContain("flex items-center justify-between gap-4 mt-2 p-3 bg-slate-900/40 rounded-xl border border-slate-800/40");
+    expect(fileContent).toContain("w-[136px]");
     expect(fileContent).toContain("<CustomNumberInput");
     expect(fileContent).toContain("text-xs text-slate-500 font-mono select-none");
     expect(fileContent).toContain("size=\"lg\"");
@@ -78,7 +79,7 @@ describe("MilestoneBuilder Component Tests", () => {
 
     // Verify animated motion.div drawer panel container exists
     expect(fileContent).toContain("motion.div");
-    expect(fileContent).toContain("width: isDrawerOpen ? \"auto\" : 0");
+    expect(fileContent).toContain("height: isDrawerOpen ? \"auto\" : 0");
     expect(fileContent).toContain("opacity: isDrawerOpen ? 1 : 0");
     expect(fileContent).toContain("overflow: isDrawerOpen ? \"visible\" : \"hidden\"");
   });

@@ -40,61 +40,67 @@ function MilestoneRow({
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
   return (
-    <div className="flex gap-2 items-center py-2 border-b border-space-800/80 last:border-b-0">
-      {/* Index number */}
-      <span className="text-xs font-mono text-slate-500 w-5 text-right shrink-0">{index}.</span>
+    <div className="flex flex-col py-2 border-b border-space-800/80 last:border-b-0">
+      <div className="flex gap-2 items-center">
+        {/* Index number */}
+        <span className="text-xs font-mono text-slate-500 w-5 text-right shrink-0">{index}.</span>
 
-      {/* Description input */}
-      <input
-        type="text"
-        value={milestone.description}
-        onChange={(e) => onUpdateDescription(e.target.value)}
-        placeholder="Milestone description"
-        className="flex-1 min-w-0 h-12 bg-slate-900 border border-slate-800 focus:border-teal-500/35 rounded-xl px-3 text-sm text-slate-200 outline-none transition-all focus-ring"
-      />
+        {/* Description input */}
+        <input
+          type="text"
+          value={milestone.description}
+          onChange={(e) => onUpdateDescription(e.target.value)}
+          placeholder="Milestone description"
+          className="flex-1 min-w-0 h-12 bg-slate-900 border border-slate-800 focus:border-teal-500/35 rounded-xl px-3 text-sm text-slate-200 outline-none transition-all focus-ring"
+        />
 
-      {/* Toggle button */}
-      <button
-        type="button"
-        onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-        className="p-2 text-slate-500 hover:text-teal-400 cursor-pointer transition-colors shrink-0"
-        title="Toggle weight and delete panel"
-      >
-        <SlidersHorizontal className="w-4 h-4" />
-      </button>
+        {/* Toggle button */}
+        <button
+          type="button"
+          onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+          className="p-2 text-slate-500 hover:text-teal-400 cursor-pointer transition-colors shrink-0"
+          title="Toggle weight and delete panel"
+        >
+          <SlidersHorizontal className="w-4 h-4" />
+        </button>
+      </div>
 
       {/* Drawer panel: animated container */}
       <motion.div
         initial={false}
         animate={{
-          width: isDrawerOpen ? "auto" : 0,
+          height: isDrawerOpen ? "auto" : 0,
           opacity: isDrawerOpen ? 1 : 0,
         }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         style={{ overflow: isDrawerOpen ? "visible" : "hidden" }}
-        className="flex items-center gap-1.5 shrink-0"
+        className="overflow-hidden"
       >
-        <div className="flex items-center gap-1.5 shrink-0 pl-1">
-          <div className="w-[116px]">
-            <CustomNumberInput
-              value={Number((milestone.payout_weight / 100).toFixed(2)).toString()}
-              onChange={onUpdateWeight}
-              min={0}
-              max={100}
-              step={1}
-              size="lg"
-              disabled={autoBalance}
-            />
+        <div className="flex items-center justify-between gap-4 mt-2 p-3 bg-slate-900/40 rounded-xl border border-slate-800/40">
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-400 font-medium">Weight:</span>
+            <div className="w-[136px]">
+              <CustomNumberInput
+                value={Number((milestone.payout_weight / 100).toFixed(2)).toString()}
+                onChange={onUpdateWeight}
+                min={0}
+                max={100}
+                step={1}
+                size="lg"
+                disabled={autoBalance}
+              />
+            </div>
+            <span className="text-xs text-slate-500 font-mono select-none">%</span>
           </div>
-          <span className="text-xs text-slate-500 font-mono select-none">%</span>
 
           {/* Remove button */}
           <button
             type="button"
             onClick={onRemove}
-            className="p-2 rounded-lg hover:bg-red-500/10 text-red-500 hover:text-red-400 active:scale-90 transition-all cursor-pointer focus-ring shrink-0"
+            className="p-2 rounded-lg hover:bg-red-500/10 text-red-500 hover:text-red-400 active:scale-90 transition-all cursor-pointer focus-ring flex items-center gap-1.5 shrink-0"
           >
             <Trash2 className="w-4 h-4" />
+            <span className="text-xs font-medium">Remove</span>
           </button>
         </div>
       </motion.div>
