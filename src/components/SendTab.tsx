@@ -98,6 +98,10 @@ export default function SendTab({
 
   return (
     <div className="space-y-6" data-testid="send-tab-root">
+      <h3 className="text-xl font-semibold font-display text-slate-100 text-left px-1 mb-6">
+        Transfer Assets
+      </h3>
+
       {/* 1. Balance Card (Gradient Border + Subtle Glow) */}
       {isConnected && balance !== null && (
         <div className="relative p-[1.5px] rounded-2xl overflow-hidden bg-gradient-to-r from-teal-400 via-primary-blue to-primary-indigo animate-gradient-spin shadow-lg shadow-teal-500/5" data-testid="balance-card">
@@ -175,7 +179,7 @@ export default function SendTab({
 
       {/* 3. Main Transfer Form */}
       {isConnected && txStatus === "idle" && (
-        <form onSubmit={handleSend} className="space-y-5" data-testid="send-form">
+        <form onSubmit={handleSend} className="p-5 rounded-2xl glass-card text-left space-y-5" data-testid="send-form">
           {/* Recipient Input (Middle Truncated on Blur) */}
           <div className="space-y-2">
             <div className="flex justify-between items-center px-1">
@@ -227,7 +231,7 @@ export default function SendTab({
           </div>
 
           {/* Route toggle */}
-          <div className="p-3.5 rounded-xl bg-space-900/40 border border-space-700/30 flex items-center justify-between">
+          <div className="p-3.5 rounded-xl bg-space-950/40 border border-space-800/80 flex items-center justify-between">
             <div className="space-y-0.5 text-left">
               <span className="text-xs font-bold text-slate-200">
                 Route via Soroban Contract
@@ -372,7 +376,7 @@ export default function SendTab({
 
       {/* Disconnected state */}
       {(!isConnected) && (
-        <div className="p-8 rounded-2xl glass-card text-center space-y-5 border-space-700/30" data-testid="disconnected-state">
+        <div className="p-8 rounded-2xl glass-card text-center space-y-5" data-testid="disconnected-state">
           <div className="w-14 h-14 rounded-2xl bg-space-900/80 border border-space-700/50 flex items-center justify-center mx-auto shadow-md">
             <Coins className="w-7 h-7 text-teal-400 animate-pulse-glow" />
           </div>

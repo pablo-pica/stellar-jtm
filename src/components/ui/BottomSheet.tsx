@@ -35,7 +35,7 @@ export default function BottomSheet({
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 350 }}
+            transition={{ type: "spring", damping: 35, stiffness: 280 }}
             drag="y"
             dragConstraints={{ top: 0 }}
             dragElastic={{ top: 0.1, bottom: 0.8 }}

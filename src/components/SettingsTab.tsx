@@ -27,7 +27,7 @@ export default function SettingsTab({
 
   return (
     <div className="space-y-6" data-testid="settings-tab-root">
-      <h3 className="text-xl font-semibold font-display text-slate-100 text-left px-1">
+      <h3 className="text-xl font-semibold font-display text-slate-100 text-left px-1 mb-6">
         App Settings
       </h3>
 

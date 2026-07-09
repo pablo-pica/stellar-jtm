@@ -85,7 +85,7 @@ export default function CustomNumberInput({
           data-testid="num-input-field"
         />
         {suffix && (
-          <span className="absolute right-3 top-2 text-xs font-bold text-slate-400 select-none">
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 select-none">
             {suffix}
           </span>
         )}

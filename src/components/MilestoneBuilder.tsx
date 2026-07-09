@@ -72,7 +72,7 @@ export default function MilestoneBuilder({ milestones, onChange }: MilestoneBuil
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-4">
+    <div className="p-5 rounded-2xl glass-card space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
           <span>Milestone Editor</span>
@@ -117,30 +117,30 @@ export default function MilestoneBuilder({ milestones, onChange }: MilestoneBuil
           <p className="text-xs text-slate-500 text-center py-4">No milestones defined. Add one below.</p>
         ) : (
           milestones.map((m, idx) => (
-            <div key={idx} className="flex gap-2 items-center bg-slate-950 p-2.5 border border-slate-800 rounded-xl">
+            <div key={idx} className="flex gap-3 items-center bg-slate-950 p-3.5 border border-slate-800 rounded-xl">
               <span className="text-xs font-mono text-slate-500 w-5 text-right">{idx + 1}.</span>
               <input
                 type="text"
                 value={m.description}
                 onChange={(e) => handleUpdateDescription(idx, e.target.value)}
                 placeholder="Milestone description"
-                className="flex-1 bg-slate-900 border border-slate-800 focus:border-indigo-500/50 rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none transition-all"
+                className="flex-1 h-10 bg-slate-900 border border-slate-800 focus:border-teal-500/35 rounded-xl px-3 text-xs text-slate-200 outline-none transition-all focus-ring"
               />
-              <div className="flex items-center gap-1 w-24">
+              <div className="flex items-center gap-1.5 w-24">
                 <input
                   type="number"
                   step="0.01"
                   value={Number((m.payout_weight / 100).toFixed(2))}
                   onChange={(e) => handleUpdateWeight(idx, e.target.value)}
                   placeholder="0.00"
-                  className="w-full bg-slate-900 border border-slate-800 focus:border-indigo-500/50 rounded-lg px-2 py-1.5 text-xs text-slate-200 font-mono text-right outline-none transition-all"
+                  className="w-full h-10 bg-slate-900 border border-slate-800 focus:border-teal-500/35 rounded-xl px-2.5 text-xs text-slate-200 font-mono text-right outline-none transition-all focus-ring"
                 />
                 <span className="text-xs text-slate-500 font-mono">%</span>
               </div>
               <button
                 type="button"
                 onClick={() => handleRemoveMilestone(idx)}
-                className="p-1.5 rounded-lg hover:bg-red-500/10 text-slate-500 hover:text-red-400 active:scale-90 transition-all cursor-pointer"
+                className="p-2 rounded-xl hover:bg-red-500/10 text-slate-500 hover:text-red-400 active:scale-90 transition-all cursor-pointer focus-ring"
               >
                 <Trash2 className="w-4 h-4" />
               </button>

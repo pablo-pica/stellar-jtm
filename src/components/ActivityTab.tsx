@@ -80,20 +80,17 @@ export default function ActivityTab({ transactions }: ActivityTabProps) {
   };
 
   return (
-    <div className="space-y-4" data-testid="activity-tab-root">
-      {/* Live sync banner */}
-      <div className="flex items-center justify-between px-1">
-        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-          Transaction History
-        </h3>
-        <span className="text-[10px] text-slate-400 font-bold flex items-center gap-1.5 bg-space-850 px-2 py-1 rounded-full border border-space-700/40 select-none">
+    <div className="space-y-6" data-testid="activity-tab-root">
+      <h3 className="text-xl font-semibold font-display text-slate-100 text-left px-1 mb-6 flex justify-between items-center w-full">
+        <span>Transaction History</span>
+        <span className="text-xs text-slate-400 font-bold flex items-center gap-1.5 bg-space-850 px-2.5 py-1 rounded-full border border-space-700/40 select-none normal-case">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
           <span>Live</span>
         </span>
-      </div>
+      </h3>
 
       {transactions.length === 0 ? (
-        <div className="p-8 rounded-2xl glass-card border-space-700/30 text-center space-y-4" data-testid="activity-empty-state">
+        <div className="p-8 rounded-2xl glass-card text-center space-y-4" data-testid="activity-empty-state">
           <div className="w-12 h-12 rounded-full bg-space-900 border border-space-700/50 flex items-center justify-center mx-auto text-slate-400">
             <ReceiptText className="w-6 h-6 text-teal-400/70" />
           </div>
@@ -121,7 +118,7 @@ export default function ActivityTab({ transactions }: ActivityTabProps) {
                 key={tx.id}
                 variants={itemVariants}
                 onClick={() => toggleExpand(tx.id)}
-                className="relative rounded-xl bg-space-900/50 border border-space-700/20 hover:border-space-700/40 transition-all overflow-hidden flex flex-col cursor-pointer text-left focus-ring"
+                className="relative rounded-xl glass-card hover:border-teal-500/25 transition-all overflow-hidden flex flex-col cursor-pointer text-left focus-ring"
                 data-testid={`tx-card-${tx.id}`}
               >
                 {/* Left side indicator bar */}

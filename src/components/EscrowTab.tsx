@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Lock, AlertCircle, ChevronDown, ChevronUp, Clock, HelpCircle, Shield, Check } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import CustomNumberInput from "./ui/CustomNumberInput";
 import SegmentedControl, { SegmentedOption } from "./ui/SegmentedControl";
 import { InlineConfirmationButton } from "./ui/ConfirmationDialog";
@@ -131,62 +132,57 @@ export default function EscrowTab({
 
   return (
     <div className="space-y-6" data-testid="escrow-tab-root">
+      <h3 className="text-xl font-semibold font-display text-slate-100 text-left px-1 mb-6">
+        Escrow Locks
+      </h3>
+
       {/* Creation form section */}
       {isConnected && (
-        <div className="p-4 rounded-2xl bg-space-900/40 border border-space-700/30 space-y-4">
-          <button
-            type="button"
-            onClick={() => setFormExpanded(!formExpanded)}
-            className="w-full flex items-center justify-between text-xs font-bold text-slate-200 uppercase tracking-wider cursor-pointer"
-          >
-            <span>Create Escrow Lock</span>
-            {formExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </button>
+        <div className="p-5 rounded-2xl glass-card space-y-4 text-left">
+          <h4 className="text-base font-bold text-slate-200">Create Escrow Lock</h4>
 
-          {formExpanded && (
-            <form onSubmit={handleCreateSubmit} className="space-y-4 pt-2 text-left">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300">Recipient Address</label>
-                <input
-                  type="text"
-                  required
-                  value={recipient}
-                  onChange={(e) => setRecipient(e.target.value)}
-                  placeholder="G..."
-                  className="w-full h-11 px-4 rounded-xl bg-space-950/60 border border-space-700/50 focus:border-teal-500/30 text-xs font-mono text-slate-200 outline-none"
-                />
-              </div>
+          <form onSubmit={handleCreateSubmit} className="space-y-4 pt-1">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-300">Recipient Address</label>
+              <input
+                type="text"
+                required
+                value={recipient}
+                onChange={(e) => setRecipient(e.target.value)}
+                placeholder="G..."
+                className="w-full h-11 px-4 rounded-xl bg-space-950/60 border border-space-700/50 focus:border-teal-500/30 text-xs font-mono text-slate-200 outline-none"
+              />
+            </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300">Lock Amount</label>
-                <CustomNumberInput
-                  value={amount}
-                  onChange={setAmount}
-                  suffix="XLM"
-                  placeholder="0.00"
-                />
-              </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-300">Lock Amount</label>
+              <CustomNumberInput
+                value={amount}
+                onChange={setAmount}
+                suffix="XLM"
+                placeholder="0.00"
+              />
+            </div>
 
-              <div className="pt-2">
-                <MilestoneBuilder milestones={milestones} onChange={setMilestones} />
-              </div>
+            <div className="pt-2">
+              <MilestoneBuilder milestones={milestones} onChange={setMilestones} />
+            </div>
 
-              <button
-                type="submit"
-                disabled={createLoading}
-                className="w-full h-12 rounded-xl bg-gradient-to-r from-teal-400 to-primary-indigo text-xs font-bold text-white flex items-center justify-center gap-1.5 hover:shadow-lg hover:shadow-teal-500/10 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
-              >
-                {createLoading ? (
-                  <span className="w-4 h-4 rounded-full border-2 border-slate-400 border-t-white animate-spin" />
-                ) : (
-                  <>
-                    <Lock className="w-3.5 h-3.5" />
-                    <span>Create Escrow Lock</span>
-                  </>
-                )}
-              </button>
-            </form>
-          )}
+            <button
+              type="submit"
+              disabled={createLoading}
+              className="w-full h-12 rounded-xl bg-gradient-to-r from-teal-400 to-primary-indigo text-xs font-bold text-white flex items-center justify-center gap-1.5 hover:shadow-lg hover:shadow-teal-500/10 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+            >
+              {createLoading ? (
+                <span className="w-4 h-4 rounded-full border-2 border-slate-400 border-t-white animate-spin" />
+              ) : (
+                <>
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>Create Escrow Lock</span>
+                </>
+              )}
+            </button>
+          </form>
         </div>
       )}
 
@@ -203,7 +199,7 @@ export default function EscrowTab({
       {/* Escrows container */}
       <div className="space-y-4">
         {escrows.length === 0 ? (
-          <div className="p-8 rounded-2xl glass-card border-space-700/30 text-center space-y-4" data-testid="escrow-empty-state">
+          <div className="p-8 rounded-2xl glass-card text-center space-y-4" data-testid="escrow-empty-state">
             <div className="w-12 h-12 rounded-full bg-space-900 border border-space-700/50 flex items-center justify-center mx-auto text-slate-400">
               <Lock className="w-6 h-6 text-teal-400/70" />
             </div>
@@ -224,31 +220,31 @@ export default function EscrowTab({
             return (
               <div
                 key={escrow.id}
-                className="rounded-2xl bg-space-900/50 border border-space-700/40 overflow-hidden transition-all duration-300"
+                className="rounded-2xl glass-card overflow-hidden hover:border-teal-500/25 transition-all duration-300"
                 data-testid={`escrow-card-${escrow.id}`}
               >
                 {/* Expandable Header */}
                 <button
                   type="button"
                   onClick={() => toggleEscrowExpand(escrow.id)}
-                  className="w-full p-4 flex flex-col gap-3 hover:bg-space-850/30 transition-all cursor-pointer text-left focus-ring"
+                  className="w-full p-5 flex flex-col gap-3 hover:bg-space-850/30 transition-all cursor-pointer text-left focus-ring"
                 >
                   <div className="flex justify-between items-start w-full">
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-teal-400" />
-                        <code className="text-[10px] font-mono font-bold text-slate-300">
+                        <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
+                        <code className="text-xs font-mono font-bold text-slate-300">
                           {escrow.escrowContract
                             ? `${escrow.escrowContract.slice(0, 6)}...${escrow.escrowContract.slice(-6)}`
                             : "Contract Lock"}
                         </code>
                       </div>
-                      <p className="text-[10px] text-slate-400 font-mono">{escrow.timestamp}</p>
+                      <p className="text-xs text-slate-400 font-mono">{escrow.timestamp}</p>
                     </div>
 
                     <div className="text-right flex items-center gap-3">
                       <div>
-                        <span className="text-xs font-bold text-slate-200">
+                        <span className="text-sm font-bold text-slate-200">
                           {escrow.amountIn} {escrow.assetIn}
                         </span>
                       </div>
@@ -258,7 +254,7 @@ export default function EscrowTab({
 
                   {/* Horizontal progress indicators */}
                   <div className="space-y-1.5 w-full">
-                    <div className="flex justify-between text-[9px] font-mono text-slate-400">
+                    <div className="flex justify-between text-xs font-mono text-slate-400">
                       <span>Milestones Progress</span>
                       <span>{completedCount}/{totalCount} Completed</span>
                     </div>
@@ -272,31 +268,39 @@ export default function EscrowTab({
                 </button>
 
                 {/* Collapsed Children Accordion Details */}
-                {isExpanded && (
-                  <div className="px-4 pb-4 pt-2 border-t border-space-700/20 space-y-4 bg-space-950/20">
-                    {/* Role selector panel */}
-                    <div className="p-3 rounded-xl bg-space-900/50 border border-space-850 space-y-2 text-left" data-testid="role-selector-panel">
-                      <div className="flex justify-between items-center text-[9px]">
-                        <span className="font-bold text-slate-400 uppercase tracking-wider">
-                          Active Escrow Role Selector:
-                        </span>
-                        <span className="font-mono text-teal-400 uppercase font-bold">{userRole}</span>
-                      </div>
-                      <SegmentedControl
-                        value={userRole}
-                        onChange={setUserRole}
-                        options={[
-                          { label: "Client", value: "client", color: "bg-teal-500" },
-                          { label: "Freelancer", value: "freelancer", color: "bg-cyan-500" },
-                          { label: "Mediator", value: "mediator", color: "bg-purple-500" },
-                          { label: "Auto", value: "auto", color: "bg-slate-500" },
-                        ]}
-                        idPrefix={`role-${escrow.id}`}
-                      />
-                      <p className="text-[9px] text-slate-400 leading-relaxed font-medium">
-                        {getRoleHelpText(userRole)}
-                      </p>
-                    </div>
+                <AnimatePresence initial={false}>
+                  {isExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-5 pb-5 pt-2 border-t border-space-700/20 space-y-5 bg-space-950/15">
+                        {/* Role selector panel */}
+                        <div className="p-4 rounded-xl bg-space-900/80 border border-space-800 space-y-3 text-left" data-testid="role-selector-panel">
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="font-bold text-slate-400 uppercase tracking-wider">
+                              Active Escrow Role Selector:
+                            </span>
+                            <span className="font-mono text-teal-400 uppercase font-bold">{userRole}</span>
+                          </div>
+                          <SegmentedControl
+                            value={userRole}
+                            onChange={setUserRole}
+                            options={[
+                              { label: "Client", value: "client", color: "bg-teal-500" },
+                              { label: "Freelancer", value: "freelancer", color: "bg-cyan-500" },
+                              { label: "Mediator", value: "mediator", color: "bg-purple-500" },
+                              { label: "Auto", value: "auto", color: "bg-slate-500" },
+                            ]}
+                            idPrefix={`role-${escrow.id}`}
+                          />
+                          <p className="text-xs text-slate-400 leading-relaxed font-medium">
+                            {getRoleHelpText(userRole)}
+                          </p>
+                        </div>
 
                     {/* Milestones Ledger */}
                     <div className="space-y-2.5">
@@ -318,7 +322,7 @@ export default function EscrowTab({
                         return (
                           <div
                             key={idx}
-                            className="p-3 rounded-xl bg-space-900/40 border border-space-850 space-y-3 hover:border-teal-500/10 transition-all text-left"
+                            className="p-4 rounded-xl bg-space-900/60 border border-space-800 space-y-3 hover:border-teal-500/15 transition-all text-left"
                             data-testid={`milestone-card-${idx}`}
                           >
                             <div className="flex justify-between items-start gap-2">
@@ -409,8 +413,10 @@ export default function EscrowTab({
                       </div>
                     )}
                   </div>
-                )}
-              </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
             );
           })
         )}
@@ -418,7 +424,7 @@ export default function EscrowTab({
 
       {/* Connect Wallet empty state */}
       {!isConnected && (
-        <div className="p-8 rounded-2xl glass-card text-center space-y-4 border-space-700/30">
+        <div className="p-8 rounded-2xl glass-card text-center space-y-4">
           <div className="w-12 h-12 rounded-full bg-space-900 border border-space-700/50 flex items-center justify-center mx-auto text-slate-400">
             <Lock className="w-6 h-6 text-teal-400/60" />
           </div>
