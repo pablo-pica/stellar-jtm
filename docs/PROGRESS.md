@@ -85,8 +85,7 @@ Status: Warning: Missing User-dependent Assets
 ## ⚠️ Warning Logs
 
 - **Git Remote Push**: Pusher encountered authentication limits due to expired GitHub CLI credentials. Local commits are successfully recorded. Please run `gh auth login` and `git push origin dev-branch` when you return.
-- **Playwright Screenshot Script**: The automated UI screenshot capture script (`.agents/scripts/verify_ui.py`) could not be run because the Python `playwright` package was not installed in the execution environment.
-- **Missing Screenshots & Demo Video**: Screenshots (responsive views) and the 1-2 minute Loom walkthrough video link are required to complete the submission.
+- **Missing Screenshots & Demo Video**: Screenshots (responsive views) are successfully generated via Playwright MCP. The 1-2 minute Loom walkthrough video link is required to complete the submission.
 - **Production Build/Deploy**: Please trigger a new deployment to Vercel and verify the live URL functions correctly.
 
 ---
@@ -94,6 +93,7 @@ Status: Warning: Missing User-dependent Assets
 ## 📜 Audit Logs
 
 ### 2026-07-09
+- **Planner / Architect**: Audited `.agents` workspace configurations. Updated `.agents/rules/checker.md`, `.agents/workflows/verification-flow.md`, and `docs/AGENTS.md` to transition the UI screenshot flow from the local Python script to the Playwright MCP server, resolving the python package installation error. Successfully ran the Playwright MCP browser automation code to capture mobile screenshots.
 - **Checker**: Audited Phase 3 compliance. Confirmed existence of `aethyr-escrow` Rust contract and CI/CD config. All 7/7 Rust contract tests pass and all 20/20 frontend tests pass (including additional validateStellarAddress unit tests). PWA layouts, responsiveness, error handling and state indicators are fully implemented. Git log contains 52 conventional commits (exceeding 10+ requirement). Added Orange Belt submission assets placeholders to `README.md`. Updated status to `Warning: Missing User-dependent Assets` due to pending git push, missing screenshots, Loom walkthrough, and Vercel release link.
 - **Builder**: Added a unit test case for `validateStellarAddress` verifying handling of non-string inputs (null, undefined, etc.) and invalid strings containing special/non-alphanumeric characters.
 - **Builder**: Implemented JTM Orange Belt features:

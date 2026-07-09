@@ -118,8 +118,9 @@ RULES:
 4. Run the test suite:
    - For Rust: cargo test
    - For Frontend: npm run test (or vitest run)
-5. Execute the Playwright UI screenshot script:
-   python /home/pablo-pica/.gemini/antigravity-cli/skills/webapp-testing/scripts/with_server.py --server "npm run dev" --port 3000 -- python .agents/scripts/verify_ui.py
+5. Execute Playwright UI screenshot capture using Playwright MCP:
+   - Ensure the local dev server is running (`npm run dev`).
+   - Call the Playwright MCP server (`browser_run_code_unsafe` tool) with code that navigates to http://localhost:3000, resizes the viewport to 390x844, injects mock Stellar wallet APIs, and captures screenshots to `docs/assets/screen1.png` etc.
 6. Check if Vercel deployment config is correct.
 7. Edit docs/PROGRESS.md and mark met items with [x] and unmet items with [ ].
 8. If any check fails, append a detailed "⚠️ WARNING" section to the bottom of docs/PROGRESS.md explaining what is missing.
