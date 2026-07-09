@@ -101,6 +101,7 @@ Status: "Audit Passed"
   5. Vertically centered the 'XLM' suffix inside CustomNumberInput using top-1/2 -translate-y-1/2.
   6. Smoothed out bottom sheet transitions to damping: 35, stiffness: 280, eliminating peak bounce background leaks.
   7. Animated the escrow accordion details panel with height/opacity Framer Motion expand transitions.
+  8. Staged milestone elements inside MilestoneBuilder using a stacked mobile-first layout (Description and Trash button in row 1, Weight input and percent label in row 2) and added `min-w-0` to the description input, resolving layout overflow cutoffs.
 
 ### 2026-07-09
 - **Checker**: Completed full workspace compliance audit for Orange Belt requirements. Verified 11/11 Soroban contract tests (`cargo test`) and 46/46 frontend unit tests (`npm run test`) pass successfully. Inspected git logs to confirm 78 conventional commits (exceeding 10+ target). Successfully executed UI validation script with Playwright to verify the active dev server on port 3000; validated that the mobile viewport (390x844) loads with the correct landing header, active navigation tabs ('Send', 'Activity', 'Settings') are present, and the 'Connect Wallet' button is visible. Verified CI/CD config. Active Task set to 'Audit Passed'.
