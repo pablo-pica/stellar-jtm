@@ -15,7 +15,7 @@ graph TD
     Parent -->|Spawns / Defines| Builder[Builder Subagent: Gemini Flash]
     Builder -->|Writes Code & Commits| Repo[(Workspace Repository)]
     Parent -->|Spawns / Defines| Checker[Belt Checker Subagent: Gemini Flash]
-    Checker -->|Validates Checklist & Run Tests| ProgressFile
+    Checker -->|Validates Checklist, Runs Tests & Captures Screenshots| ProgressFile
     Checker -->|Reports Warnings / Compliance| Parent
 ```
 
@@ -29,12 +29,12 @@ graph TD
 
 ### 2. The Builder (Subagent)
 - **Primary Model**: Gemini 3.5 Flash (for speed and rate-limit conservation)
-- **Role**: Code generation (next.js, components, Rust contracts, tests), execution of shell commands, and automated committing.
+- **Role**: Code generation (next.js, components, Rust contracts, tests), execution of shell commands, automated committing, and root `README.md` updating.
 - **Workflow**:
   - Triggered via `invoke_subagent`.
   - Reads active task in `docs/PROGRESS.md`.
   - Implements the feature, writes corresponding unit tests.
-  - Automatically runs git commands to add, commit, and push.
+  - Automatically runs git commands to stage and commit (git add & git commit).
   - Reports completion status back to the parent agent.
 
 ### 3. The Belt Checker (Subagent)
@@ -44,6 +44,7 @@ graph TD
   - Triggered at the end of each belt's coding phase.
   - Performs static checks (checking files exist, content structures, commits count).
   - Runs active tests (`cargo test` + `npm test`) and captures output.
+  - Automatically runs the Playwright script (`.agents/scripts/verify_ui.py`) to capture responsive screenshots.
   - Updates the checklist in `docs/PROGRESS.md`.
   - Raises blocking warnings if any mandatory checklist item fails.
 
@@ -53,17 +54,28 @@ graph TD
 
 In the Antigravity CLI, agents utilize native tools to execute operations.
 
+### Project Rules Loading
+To ensure new conversations load the `.agents/rules/` configs correctly:
+1. **Directory Location**: Rules must be stored under `.agents/rules/` directory (or `.agent/rules/` for backward compatibility).
+2. **YAML Frontmatter Trigger**: The Antigravity parser requires frontmatter declarations at the top of markdown rule files to activate them correctly.
+   ```yaml
+   ---
+   trigger: always_on
+   description: <description of rules scope>
+   ---
+   ```
+   If frontmatter is missing, new conversation sessions will treat the rules as standard markdown files instead of active workspace constraints.
+
 ### Git Automation Workflow (Auto-Commit)
 For the **Builder** agent, git operations are automated to accelerate vibe-coding.
 
 1. **Staging**: Builder stages files selectively using git commands.
 2. **Commit Message Parsing**:
    - The commit message must follow the Conventional Commits format.
-   - The message should reference the active task from `docs/PROGRESS.md`.
-   - *Example*: `feat: add useFreighter hook for wallet connection (White Belt #2)`
+   - The message should NOT reference JTM belt levels or tasks.
+   - *Example*: `feat: add useFreighter hook for wallet connection`
 3. **Execution**: The builder runs `git add` and `git commit` directly.
-4. **Pushing**: The builder runs `git push` immediately after committing.
-   *(Since you selected auto-commits, the CLI will run these commands. The parent agent will track status).*
+4. **Pushing**: The builder does NOT push. Pushing is a manual task that must be performed by the supervisor.
 5. **Programmatic Enforcement**: A git pre-commit hook (`scripts/pre-commit.sh`) automatically runs on every commit, executing tests (selective based on diff) and scanning the staged code to prevent accidental leakage of Stellar private keys. If tests fail or keys are leaked, the commit is aborted.
 
 ### Model Toggling Policy
@@ -87,11 +99,11 @@ RULES:
 2. Only modify files relevant to your task.
 3. Write clean, modular React/Next.js code or Rust/Soroban smart contracts following docs/STYLE-GUIDE.md.
 4. For every feature you build, you MUST write corresponding tests (cargo test or Vitest).
-5. Once your changes work and tests pass, run:
+5. Automatically update the root README.md with any new contract addresses, transaction hashes, or test status badges.
+6. Once your changes work and tests pass, run:
    git add <modified files>
    git commit -m "<conventional commit message detailing your change>"
-   git push origin <active-branch>
-6. Do not wait for manual checks to commit — push immediately when the task is working.
+7. Do NOT push. Stop and notify the supervisor to run git push.
 7. Reply with a brief summary of files modified, tests run, and commit hash.
 ```
 
@@ -106,19 +118,10 @@ RULES:
 4. Run the test suite:
    - For Rust: cargo test
    - For Frontend: npm run test (or vitest run)
-5. Check if Vercel deployment config is correct.
-6. Edit docs/PROGRESS.md and mark met items with [x] and unmet items with [ ].
-7. If any check fails, append a detailed "⚠️ WARNING" section to the bottom of docs/PROGRESS.md explaining what is missing.
-8. Reply to the parent agent with a summary of the audit results.
+5. Execute the Playwright UI screenshot script:
+   python /home/pablo-pica/.gemini/antigravity-cli/skills/webapp-testing/scripts/with_server.py --server "npm run dev" --port 3000 -- python .agents/scripts/verify_ui.py
+6. Check if Vercel deployment config is correct.
+7. Edit docs/PROGRESS.md and mark met items with [x] and unmet items with [ ].
+8. If any check fails, append a detailed "⚠️ WARNING" section to the bottom of docs/PROGRESS.md explaining what is missing.
+9. Reply to the parent agent with a summary of the audit results.
 ```
-
----
-
-## 🔄 Live Collaboration Loop
-
-1. **Step 1 (Parent)**: Set active task in `docs/PROGRESS.md` under `## Active Task`.
-2. **Step 2 (Parent)**: Define and invoke `Builder` with the prompt: *"Implement Active Task in progress.md"*.
-3. **Step 3 (Builder)**: Reads `PROGRESS.md`, builds, runs tests, commits, pushes, and reports back.
-4. **Step 4 (Parent)**: Defines and invokes `Belt Checker` with prompt: *"Run audit for active Belt Level"*.
-5. **Step 5 (Checker)**: Audits workspace, updates `PROGRESS.md` checkboxes, writes warning log, and reports back.
-6. **Step 6 (Parent)**: Reads `PROGRESS.md`. If warnings exist → spawns Builder to fix them. If clear → notifies you that the Belt is ready for manual submission.
