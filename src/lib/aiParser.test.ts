@@ -24,11 +24,15 @@ describe("parseAiIntent", () => {
       description: "UI design",
       payout_weight: 3000,
       is_completed: false,
+      is_disputed: false,
+      submitted_at: 0,
     });
     expect(result.milestones[1]).toEqual({
       description: "backend integration",
       payout_weight: 7000,
       is_completed: false,
+      is_disputed: false,
+      submitted_at: 0,
     });
   });
 
@@ -44,11 +48,15 @@ describe("parseAiIntent", () => {
       description: "design",
       payout_weight: 4000,
       is_completed: false,
+      is_disputed: false,
+      submitted_at: 0,
     });
     expect(result.milestones[1]).toEqual({
       description: "development",
       payout_weight: 6000,
       is_completed: false,
+      is_disputed: false,
+      submitted_at: 0,
     });
   });
 
@@ -64,6 +72,8 @@ describe("parseAiIntent", () => {
     expect(result.milestones[0].payout_weight).toBe(3333);
     expect(result.milestones[1].payout_weight).toBe(3333);
     expect(result.milestones[2].payout_weight).toBe(3334);
+    expect(result.milestones[0].is_disputed).toBe(false);
+    expect(result.milestones[0].submitted_at).toBe(0);
   });
 
   it("should parse release milestone commands", () => {

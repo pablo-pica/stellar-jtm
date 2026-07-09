@@ -2,6 +2,8 @@ export interface ParsedMilestone {
   description: string;
   payout_weight: number;
   is_completed: boolean;
+  is_disputed: boolean;
+  submitted_at: number;
 }
 
 export interface ParsedIntent {
@@ -116,6 +118,8 @@ export function parseAiIntent(input: string): ParsedIntent {
         description: desc,
         payout_weight: weight,
         is_completed: false,
+        is_disputed: false,
+        submitted_at: 0,
       });
     }
   }
@@ -130,6 +134,8 @@ export function parseAiIntent(input: string): ParsedIntent {
           description: desc,
           payout_weight: weight,
           is_completed: false,
+          is_disputed: false,
+          submitted_at: 0,
         });
       }
     }
@@ -145,6 +151,8 @@ export function parseAiIntent(input: string): ParsedIntent {
           description: desc,
           payout_weight: weight,
           is_completed: false,
+          is_disputed: false,
+          submitted_at: 0,
         });
       }
     }
@@ -160,6 +168,8 @@ export function parseAiIntent(input: string): ParsedIntent {
           description: desc,
           payout_weight: weight,
           is_completed: false,
+          is_disputed: false,
+          submitted_at: 0,
         });
       }
     }
@@ -186,6 +196,8 @@ export function parseAiIntent(input: string): ParsedIntent {
             description: items[i],
             payout_weight: weight,
             is_completed: false,
+            is_disputed: false,
+            submitted_at: 0,
           });
         }
       }

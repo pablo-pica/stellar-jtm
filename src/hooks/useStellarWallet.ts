@@ -429,8 +429,16 @@ export function useStellarWallet() {
             val: xdr.ScVal.scvBool(milestone.is_completed),
           }),
           new xdr.ScMapEntry({
+            key: xdr.ScVal.scvSymbol("is_disputed"),
+            val: xdr.ScVal.scvBool(false),
+          }),
+          new xdr.ScMapEntry({
             key: xdr.ScVal.scvSymbol("payout_weight"),
             val: xdr.ScVal.scvU32(milestone.payout_weight),
+          }),
+          new xdr.ScMapEntry({
+            key: xdr.ScVal.scvSymbol("submitted_at"),
+            val: nativeToScVal(0n, { type: "u64" }),
           }),
         ]);
       };
@@ -676,6 +684,262 @@ export function useStellarWallet() {
     }
   }, [checkConnection]);
 
+  // Call submit_milestone on Escrow smart contract
+  const submitMilestone = useCallback(async (
+    escrowContract: string,
+    escrowId: string,
+    milestoneIndex: number
+  ) => {
+    const currentAddress = stateRef.current.address;
+    if (!currentAddress) {
+      throw new Error("Wallet is not connected.");
+    }
+
+    try {
+      getKit();
+      const account = await horizonServer.loadAccount(currentAddress);
+      const fee = await horizonServer.fetchBaseFee();
+
+      const escrowIdScVal = xdr.ScVal.scvBytes(Buffer.from(hexToUint8Array(escrowId)));
+      const milestoneIndexScVal = xdr.ScVal.scvU32(milestoneIndex);
+      const freelancerScVal = nativeToScVal(new Address(currentAddress));
+
+      const contract = new Contract(escrowContract);
+      const invokeOp = contract.call(
+        "submit_milestone",
+        escrowIdScVal,
+        milestoneIndexScVal,
+        freelancerScVal
+      );
+
+      let transaction = new TransactionBuilder(account, {
+        fee: fee.toString(),
+        networkPassphrase: Networks.TESTNET,
+      })
+        .addOperation(invokeOp)
+        .setTimeout(120)
+        .build();
+
+      const simulation = await rpcServer.simulateTransaction(transaction);
+      if (rpc.Api.isSimulationError(simulation)) {
+        throw new Error(`Simulation failed: ${simulation.error}`);
+      }
+
+      transaction = rpc.assembleTransaction(transaction, simulation).build();
+      const txXdr = transaction.toEnvelope().toXDR("base64");
+
+      const { signedTxXdr } = await StellarWalletsKit.signTransaction(txXdr, {
+        networkPassphrase: Networks.TESTNET,
+        address: currentAddress,
+      });
+
+      if (!signedTxXdr) {
+        throw new Error("Transaction was not signed.");
+      }
+
+      const signedTransaction = TransactionBuilder.fromXDR(signedTxXdr, Networks.TESTNET);
+      const sendResponse = await rpcServer.sendTransaction(signedTransaction);
+      if (sendResponse.status === "ERROR") {
+        const errorMsg = sendResponse.errorResult 
+          ? sendResponse.errorResult.toXDR("base64")
+          : "Unknown error";
+        throw new Error(`Transaction submission error: ${errorMsg}`);
+      }
+
+      let getResponse = await rpcServer.getTransaction(sendResponse.hash);
+      let retries = 0;
+      while (getResponse.status === "NOT_FOUND" && retries < 15) {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        getResponse = await rpcServer.getTransaction(sendResponse.hash);
+        retries++;
+      }
+
+      if (getResponse.status === "FAILED") {
+        throw new Error("Transaction execution failed on-chain.");
+      }
+
+      await checkConnection();
+
+      return {
+        hash: sendResponse.hash,
+        result: getResponse,
+      };
+    } catch (err: any) {
+      console.error("Submit milestone failed:", err);
+      throw new Error(parseWalletError(err, "transaction"));
+    }
+  }, [checkConnection]);
+
+  // Call dispute_milestone on Escrow smart contract
+  const disputeMilestone = useCallback(async (
+    escrowContract: string,
+    escrowId: string,
+    milestoneIndex: number
+  ) => {
+    const currentAddress = stateRef.current.address;
+    if (!currentAddress) {
+      throw new Error("Wallet is not connected.");
+    }
+
+    try {
+      getKit();
+      const account = await horizonServer.loadAccount(currentAddress);
+      const fee = await horizonServer.fetchBaseFee();
+
+      const escrowIdScVal = xdr.ScVal.scvBytes(Buffer.from(hexToUint8Array(escrowId)));
+      const milestoneIndexScVal = xdr.ScVal.scvU32(milestoneIndex);
+      const clientScVal = nativeToScVal(new Address(currentAddress));
+
+      const contract = new Contract(escrowContract);
+      const invokeOp = contract.call(
+        "dispute_milestone",
+        escrowIdScVal,
+        milestoneIndexScVal,
+        clientScVal
+      );
+
+      let transaction = new TransactionBuilder(account, {
+        fee: fee.toString(),
+        networkPassphrase: Networks.TESTNET,
+      })
+        .addOperation(invokeOp)
+        .setTimeout(120)
+        .build();
+
+      const simulation = await rpcServer.simulateTransaction(transaction);
+      if (rpc.Api.isSimulationError(simulation)) {
+        throw new Error(`Simulation failed: ${simulation.error}`);
+      }
+
+      transaction = rpc.assembleTransaction(transaction, simulation).build();
+      const txXdr = transaction.toEnvelope().toXDR("base64");
+
+      const { signedTxXdr } = await StellarWalletsKit.signTransaction(txXdr, {
+        networkPassphrase: Networks.TESTNET,
+        address: currentAddress,
+      });
+
+      if (!signedTxXdr) {
+        throw new Error("Transaction was not signed.");
+      }
+
+      const signedTransaction = TransactionBuilder.fromXDR(signedTxXdr, Networks.TESTNET);
+      const sendResponse = await rpcServer.sendTransaction(signedTransaction);
+      if (sendResponse.status === "ERROR") {
+        const errorMsg = sendResponse.errorResult 
+          ? sendResponse.errorResult.toXDR("base64")
+          : "Unknown error";
+        throw new Error(`Transaction submission error: ${errorMsg}`);
+      }
+
+      let getResponse = await rpcServer.getTransaction(sendResponse.hash);
+      let retries = 0;
+      while (getResponse.status === "NOT_FOUND" && retries < 15) {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        getResponse = await rpcServer.getTransaction(sendResponse.hash);
+        retries++;
+      }
+
+      if (getResponse.status === "FAILED") {
+        throw new Error("Transaction execution failed on-chain.");
+      }
+
+      await checkConnection();
+
+      return {
+        hash: sendResponse.hash,
+        result: getResponse,
+      };
+    } catch (err: any) {
+      console.error("Dispute milestone failed:", err);
+      throw new Error(parseWalletError(err, "transaction"));
+    }
+  }, [checkConnection]);
+
+  // Call auto_release_milestone on Escrow smart contract
+  const autoReleaseMilestone = useCallback(async (
+    escrowContract: string,
+    escrowId: string,
+    milestoneIndex: number
+  ) => {
+    const currentAddress = stateRef.current.address;
+    if (!currentAddress) {
+      throw new Error("Wallet is not connected.");
+    }
+
+    try {
+      getKit();
+      const account = await horizonServer.loadAccount(currentAddress);
+      const fee = await horizonServer.fetchBaseFee();
+
+      const escrowIdScVal = xdr.ScVal.scvBytes(Buffer.from(hexToUint8Array(escrowId)));
+      const milestoneIndexScVal = xdr.ScVal.scvU32(milestoneIndex);
+
+      const contract = new Contract(escrowContract);
+      const invokeOp = contract.call(
+        "auto_release_milestone",
+        escrowIdScVal,
+        milestoneIndexScVal
+      );
+
+      let transaction = new TransactionBuilder(account, {
+        fee: fee.toString(),
+        networkPassphrase: Networks.TESTNET,
+      })
+        .addOperation(invokeOp)
+        .setTimeout(120)
+        .build();
+
+      const simulation = await rpcServer.simulateTransaction(transaction);
+      if (rpc.Api.isSimulationError(simulation)) {
+        throw new Error(`Simulation failed: ${simulation.error}`);
+      }
+
+      transaction = rpc.assembleTransaction(transaction, simulation).build();
+      const txXdr = transaction.toEnvelope().toXDR("base64");
+
+      const { signedTxXdr } = await StellarWalletsKit.signTransaction(txXdr, {
+        networkPassphrase: Networks.TESTNET,
+        address: currentAddress,
+      });
+
+      if (!signedTxXdr) {
+        throw new Error("Transaction was not signed.");
+      }
+
+      const signedTransaction = TransactionBuilder.fromXDR(signedTxXdr, Networks.TESTNET);
+      const sendResponse = await rpcServer.sendTransaction(signedTransaction);
+      if (sendResponse.status === "ERROR") {
+        const errorMsg = sendResponse.errorResult 
+          ? sendResponse.errorResult.toXDR("base64")
+          : "Unknown error";
+        throw new Error(`Transaction submission error: ${errorMsg}`);
+      }
+
+      let getResponse = await rpcServer.getTransaction(sendResponse.hash);
+      let retries = 0;
+      while (getResponse.status === "NOT_FOUND" && retries < 15) {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        getResponse = await rpcServer.getTransaction(sendResponse.hash);
+        retries++;
+      }
+
+      if (getResponse.status === "FAILED") {
+        throw new Error("Transaction execution failed on-chain.");
+      }
+
+      await checkConnection();
+
+      return {
+        hash: sendResponse.hash,
+        result: getResponse,
+      };
+    } catch (err: any) {
+      console.error("Auto-release milestone failed:", err);
+      throw new Error(parseWalletError(err, "transaction"));
+    }
+  }, [checkConnection]);
+
   return {
     ...state,
     connect,
@@ -685,6 +949,9 @@ export function useStellarWallet() {
     routeToEscrow,
     releaseMilestone,
     refundEscrow,
+    submitMilestone,
+    disputeMilestone,
+    autoReleaseMilestone,
     refresh: checkConnection,
   };
 

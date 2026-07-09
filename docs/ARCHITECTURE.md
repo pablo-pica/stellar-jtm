@@ -139,6 +139,8 @@ pub struct Milestone {
     pub description: Symbol,   // Short description of the work
     pub payout_weight: u32,   // Payout percentage represented in basis points (e.g., 5000 = 50.00%)
     pub is_completed: bool,   // Completion status
+    pub submitted_at: u64,    // Ledger timestamp of milestone submission
+    pub is_disputed: bool,    // Milestone dispute status
 }
 
 pub trait AethyrEscrowTrait {
@@ -175,6 +177,29 @@ pub trait AethyrEscrowTrait {
         env: Env, 
         escrow_id: BytesN<32>, 
         sender: Address
+    );
+
+    /// Submits a milestone by a freelancer (escrow receiver)
+    fn submit_milestone(
+        env: Env,
+        escrow_id: BytesN<32>,
+        milestone_index: u32,
+        freelancer: Address,
+    );
+
+    /// Disputes a milestone by a client (escrow sender)
+    fn dispute_milestone(
+        env: Env,
+        escrow_id: BytesN<32>,
+        milestone_index: u32,
+        client: Address,
+    );
+
+    /// Auto-releases a milestone after a 7-day period if not disputed
+    fn auto_release_milestone(
+        env: Env,
+        escrow_id: BytesN<32>,
+        milestone_index: u32,
     );
 }
 ```

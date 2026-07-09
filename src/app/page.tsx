@@ -26,6 +26,7 @@ const WalletConnect = dynamic(() => import("@/components/WalletConnect"), {
 import BottomNav, { TabId } from "@/components/BottomNav";
 import ProfileDrawer from "@/components/ProfileDrawer";
 import { validateStellarAddress } from "@/lib/utils";
+import MilestoneBuilder, { Milestone } from "@/components/MilestoneBuilder";
 
 interface TransactionItem {
   id: string;
@@ -42,7 +43,7 @@ interface TransactionItem {
   escrowId?: string;
   senderAddress?: string;
   receiverAddress?: string;
-  milestones?: { description: string; payout_weight: number; is_completed: boolean }[];
+  milestones?: Milestone[];
   isExpired?: boolean;
 }
 
@@ -61,6 +62,9 @@ export default function Dashboard() {
     routeToEscrow,
     releaseMilestone,
     refundEscrow,
+    submitMilestone,
+    disputeMilestone,
+    autoReleaseMilestone,
   } = useStellarWallet();
 
   // Tab routing view state
@@ -80,8 +84,11 @@ export default function Dashboard() {
 
   // AI Assist & Milestones State
   const [aiInput, setAiInput] = useState("");
-  const [milestones, setMilestones] = useState<{ description: string; payout_weight: number; is_completed: boolean }[]>([]);
+  const [milestones, setMilestones] = useState<Milestone[]>([]);
   const [expandedEscrows, setExpandedEscrows] = useState<Record<string, boolean>>({});
+
+  // Simulated User Role for Escrow Milestones Actions
+  const [userRole, setUserRole] = useState<"client" | "freelancer" | "mediator" | "auto">("client");
 
   // Settings states
   const [slippage, setSlippage] = useState("1.0");
@@ -123,8 +130,8 @@ export default function Dashboard() {
           setMilestones(parsed.milestones);
         } else {
           setMilestones([
-            { description: "Milestone 1", payout_weight: 5000, is_completed: false },
-            { description: "Milestone 2", payout_weight: 5000, is_completed: false }
+            { description: "Milestone 1", payout_weight: 5000, is_completed: false, is_disputed: false, submitted_at: 0 },
+            { description: "Milestone 2", payout_weight: 5000, is_completed: false, is_disputed: false, submitted_at: 0 }
           ]);
         }
       } else {
@@ -200,6 +207,92 @@ export default function Dashboard() {
     }
   };
 
+  const handleSubmitMilestone = async (txId: string, milestoneIndex: number) => {
+    const tx = transactions.find((t) => t.id === txId);
+    if (!tx || !tx.escrowContract || !tx.escrowId) {
+      showToast("Escrow details not found.", "error");
+      return;
+    }
+    try {
+      showToast("Submitting milestone work...", "info");
+      await submitMilestone(tx.escrowContract, tx.escrowId, milestoneIndex);
+      setTransactions((prev) =>
+        prev.map((t) => {
+          if (t.id === txId && t.milestones) {
+            const updated = [...t.milestones];
+            updated[milestoneIndex] = {
+              ...updated[milestoneIndex],
+              submitted_at: Math.floor(Date.now() / 1000),
+            };
+            return { ...t, milestones: updated };
+          }
+          return t;
+        })
+      );
+      showToast("Milestone work submitted!", "success");
+    } catch (err: any) {
+      showToast(err.message || "Failed to submit milestone", "error");
+    }
+  };
+
+  const handleDisputeMilestone = async (txId: string, milestoneIndex: number) => {
+    const tx = transactions.find((t) => t.id === txId);
+    if (!tx || !tx.escrowContract || !tx.escrowId) {
+      showToast("Escrow details not found.", "error");
+      return;
+    }
+    try {
+      showToast("Flagging dispute...", "info");
+      await disputeMilestone(tx.escrowContract, tx.escrowId, milestoneIndex);
+      setTransactions((prev) =>
+        prev.map((t) => {
+          if (t.id === txId && t.milestones) {
+            const updated = [...t.milestones];
+            updated[milestoneIndex] = {
+              ...updated[milestoneIndex],
+              is_disputed: true,
+            };
+            return { ...t, milestones: updated };
+          }
+          return t;
+        })
+      );
+      showToast("Milestone dispute flagged!", "success");
+    } catch (err: any) {
+      showToast(err.message || "Failed to flag dispute", "error");
+    }
+  };
+
+  const handleAutoReleaseMilestone = async (txId: string, milestoneIndex: number) => {
+    const tx = transactions.find((t) => t.id === txId);
+    if (!tx || !tx.escrowContract || !tx.escrowId) {
+      showToast("Escrow details not found.", "error");
+      return;
+    }
+    try {
+      showToast("Triggering auto-release...", "info");
+      await autoReleaseMilestone(tx.escrowContract, tx.escrowId, milestoneIndex);
+      setTransactions((prev) =>
+        prev.map((t) => {
+          if (t.id === txId && t.milestones) {
+            const updated = [...t.milestones];
+            updated[milestoneIndex] = {
+              ...updated[milestoneIndex],
+              is_completed: true,
+              submitted_at: 0,
+              is_disputed: false,
+            };
+            return { ...t, milestones: updated };
+          }
+          return t;
+        })
+      );
+      showToast("Milestone auto-released!", "success");
+    } catch (err: any) {
+      showToast(err.message || "Failed to auto-release milestone", "error");
+    }
+  };
+
   // Dynamic Transaction Log
   const [transactions, setTransactions] = useState<TransactionItem[]>([
     {
@@ -216,8 +309,8 @@ export default function Dashboard() {
       senderAddress: "GBRPYHIL2CIYAOSRIWRMQHEBOZJ7PAGB37NMQ22FQGSNLUY65VOUAIV2",
       receiverAddress: "GBRPYHIL2CIYAOSRIWRMQHEBOZJ7PAGB37NMQ22FQGSNLUY65VOUAIV2",
       milestones: [
-        { description: "UI Design mockups", payout_weight: 3000, is_completed: false },
-        { description: "Integration with Soroban", payout_weight: 7000, is_completed: false }
+        { description: "UI Design mockups", payout_weight: 3000, is_completed: false, is_disputed: false, submitted_at: 0 },
+        { description: "Integration with Soroban", payout_weight: 7000, is_completed: false, is_disputed: false, submitted_at: 0 }
       ],
       isExpired: true,
     },
@@ -583,85 +676,10 @@ export default function Dashboard() {
 
                     {/* Milestones list for Escrow payments */}
                     {isRouted && (
-                      <div className="space-y-3 p-4 rounded-xl bg-space-900/60 border border-space-800">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold text-slate-300">Milestones Config (Total: 100%)</span>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setMilestones([...milestones, { description: `Milestone ${milestones.length + 1}`, payout_weight: 0, is_completed: false }]);
-                            }}
-                            className="text-[10px] font-bold text-primary-cyan hover:underline"
-                          >
-                            + Add Milestone
-                          </button>
-                        </div>
-                        {milestones.length === 0 ? (
-                          <p className="text-[10px] text-slate-500 italic">No milestones defined. A standard routed payment will be made.</p>
-                        ) : (
-                          <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
-                            {milestones.map((m, idx) => (
-                              <div key={idx} className="flex gap-2 items-center">
-                                <input
-                                  type="text"
-                                  value={m.description}
-                                  onChange={(e) => {
-                                    const copy = [...milestones];
-                                    copy[idx].description = e.target.value;
-                                    setMilestones(copy);
-                                  }}
-                                  placeholder="Description"
-                                  className="flex-1 h-8 px-2 text-xs rounded bg-space-950 border border-space-800 text-slate-200 outline-none focus:border-primary-indigo"
-                                />
-                                <input
-                                  type="number"
-                                  value={m.payout_weight ? m.payout_weight / 100 : ""}
-                                  onChange={(e) => {
-                                    const copy = [...milestones];
-                                    copy[idx].payout_weight = Math.round(parseFloat(e.target.value || "0") * 100);
-                                    setMilestones(copy);
-                                  }}
-                                  placeholder="%"
-                                  className="w-16 h-8 px-2 text-xs rounded bg-space-950 border border-space-800 text-slate-200 text-center outline-none focus:border-primary-indigo"
-                                />
-                                <span className="text-[10px] text-slate-500">%</span>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setMilestones(milestones.filter((_, i) => i !== idx));
-                                  }}
-                                  className="text-red-400 hover:text-red-300 text-xs px-1"
-                                >
-                                  ×
-                                </button>
-                              </div>
-                            ))}
-                            {/* Helper button to auto-balance weights */}
-                            <div className="flex justify-between items-center pt-1.5 border-t border-space-800/40">
-                              <span className="text-[9px] text-slate-400">
-                                Sum: {milestones.reduce((s, m) => s + m.payout_weight, 0) / 100}%
-                              </span>
-                              <button
-                                  type="button"
-                                  onClick={() => {
-                                    if (milestones.length === 0) return;
-                                    const equal = Math.floor(10000 / milestones.length);
-                                    let sum = 0;
-                                    const balanced = milestones.map((m, i) => {
-                                      const w = i === milestones.length - 1 ? (10000 - sum) : equal;
-                                      sum += w;
-                                      return { ...m, payout_weight: w };
-                                    });
-                                    setMilestones(balanced);
-                                  }}
-                                  className="text-[9px] text-primary-indigo font-bold hover:underline"
-                                >
-                                  Auto-balance weights
-                                </button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
+                      <MilestoneBuilder
+                        milestones={milestones}
+                        onChange={setMilestones}
+                      />
                     )}
 
                     {/* Path Routing Visualization */}
@@ -877,6 +895,30 @@ export default function Dashboard() {
 
                         {expandedEscrows[tx.id] && tx.milestones && (
                           <div className="mt-3 pt-3 border-t border-space-800 space-y-3">
+                            {/* Role Switcher inside Escrow context */}
+                            <div className="p-2.5 rounded-xl bg-space-950/80 border border-space-850 space-y-1.5">
+                              <div className="flex justify-between items-center text-[9px]">
+                                <span className="font-semibold text-slate-400 uppercase tracking-wider">Active Role Selector:</span>
+                                <span className="font-mono text-primary-cyan uppercase font-bold">{userRole}</span>
+                              </div>
+                              <div className="grid grid-cols-4 gap-1">
+                                {(["client", "freelancer", "mediator", "auto"] as const).map((r) => (
+                                  <button
+                                    key={r}
+                                    type="button"
+                                    onClick={() => setUserRole(r)}
+                                    className={`h-6 rounded text-[8px] font-bold border transition-all cursor-pointer ${
+                                      userRole === r
+                                        ? "bg-primary-indigo/15 border-primary-indigo/40 text-primary-indigo"
+                                        : "bg-space-900 border-space-800 text-slate-400 hover:text-slate-200"
+                                    }`}
+                                  >
+                                    {r === "client" ? "Client" : r === "freelancer" ? "Freelancer" : r === "mediator" ? "Mediator" : "Auto"}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+
                             <div className="flex justify-between items-center text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
                               <span>Milestones Ledger</span>
                               <span className="font-mono">
@@ -885,42 +927,99 @@ export default function Dashboard() {
                             </div>
 
                             <div className="space-y-2">
-                              {tx.milestones.map((m, mIdx) => (
-                                <div
-                                  key={mIdx}
-                                  className="p-2.5 rounded-xl bg-space-950/60 border border-space-850 flex items-center justify-between gap-3"
-                                >
-                                  <div className="space-y-0.5 min-w-0">
-                                    <p className="text-xs font-semibold text-slate-200 truncate">
-                                      {m.description}
-                                    </p>
-                                    <div className="flex items-center gap-1.5 text-[9px] font-mono text-slate-400">
-                                      <span>Weight: {m.payout_weight / 100}%</span>
-                                      <span className="w-1 h-1 rounded-full bg-space-700" />
-                                      <span
-                                        className={`font-bold ${
-                                          m.is_completed ? "text-emerald-400" : "text-amber-400"
-                                        }`}
-                                      >
-                                        {m.is_completed ? "Completed" : "Pending"}
-                                      </span>
-                                    </div>
-                                  </div>
+                              {tx.milestones.map((m, mIdx) => {
+                                const getMilestoneStatus = (milestone: any) => {
+                                  if (milestone.is_completed) return { label: "Completed", className: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" };
+                                  if (milestone.is_disputed) return { label: "Disputed", className: "bg-red-500/10 text-red-400 border border-red-500/20" };
+                                  if (milestone.submitted_at > 0) return { label: "Submitted", className: "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20" };
+                                  return { label: "Open", className: "bg-slate-500/10 text-slate-400 border border-slate-500/20" };
+                                };
+                                const status = getMilestoneStatus(m);
 
-                                  {/* Release button: if not completed and payer/sender */}
-                                  {!m.is_completed &&
-                                    (tx.senderAddress === address ||
-                                      tx.senderAddress === "GBRPYHIL2CIYAOSRIWRMQHEBOZJ7PAGB37NMQ22FQGSNLUY65VOUAIV2") && (
-                                      <button
-                                        type="button"
-                                        onClick={() => handleReleaseMilestone(tx.id, mIdx)}
-                                        className="h-7 px-3 rounded-lg bg-primary-indigo/20 hover:bg-primary-indigo/35 border border-primary-indigo/40 hover:border-primary-indigo/60 text-[9px] font-bold text-primary-indigo active:scale-95 transition-all cursor-pointer"
-                                      >
-                                        Release
-                                      </button>
+                                return (
+                                  <div
+                                    key={mIdx}
+                                    className="p-2.5 rounded-xl bg-space-950/60 border border-space-850 flex flex-col gap-2.5"
+                                  >
+                                    <div className="flex items-center justify-between gap-3 w-full">
+                                      <div className="space-y-0.5 min-w-0">
+                                        <p className="text-xs font-semibold text-slate-200 truncate">
+                                          {m.description}
+                                        </p>
+                                        <div className="flex items-center gap-1.5 text-[9px] font-mono text-slate-400">
+                                          <span>Weight: {m.payout_weight / 100}%</span>
+                                          <span className="w-1 h-1 rounded-full bg-space-700" />
+                                          <span className={`px-1.5 py-0.5 rounded text-[8px] ${status.className}`}>
+                                            {status.label}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    {/* Action Buttons depending on role */}
+                                    {!m.is_completed && (
+                                      <div className="flex flex-wrap items-center gap-1.5 pt-1.5 border-t border-space-900">
+                                        {userRole === "freelancer" && !m.is_disputed && (!m.submitted_at || m.submitted_at === 0) && (
+                                          <button
+                                            type="button"
+                                            onClick={() => handleSubmitMilestone(tx.id, mIdx)}
+                                            className="h-7 px-2.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-500/40 hover:border-cyan-500/60 text-[9px] font-bold text-cyan-400 active:scale-95 transition-all cursor-pointer"
+                                          >
+                                            Submit Work
+                                          </button>
+                                        )}
+                                        {userRole === "client" && (
+                                          <>
+                                            <button
+                                              type="button"
+                                              onClick={() => handleReleaseMilestone(tx.id, mIdx)}
+                                              className="h-7 px-2.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 hover:border-emerald-500/60 text-[9px] font-bold text-emerald-400 active:scale-95 transition-all cursor-pointer"
+                                            >
+                                              Release Milestone
+                                            </button>
+                                            {!m.is_disputed && (
+                                              <button
+                                                type="button"
+                                                onClick={() => handleDisputeMilestone(tx.id, mIdx)}
+                                                className="h-7 px-2.5 rounded-lg bg-red-500/20 hover:bg-red-500/35 border border-red-500/40 hover:border-red-500/60 text-[9px] font-bold text-red-400 active:scale-95 transition-all cursor-pointer"
+                                              >
+                                                Flag Dispute
+                                              </button>
+                                            )}
+                                          </>
+                                        )}
+                                        {userRole === "mediator" && (
+                                          <>
+                                            <button
+                                              type="button"
+                                              onClick={() => handleReleaseMilestone(tx.id, mIdx)}
+                                              className="h-7 px-2.5 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/35 border border-indigo-500/40 hover:border-indigo-500/60 text-[9px] font-bold text-indigo-400 active:scale-95 transition-all cursor-pointer"
+                                            >
+                                              Resolve: Release
+                                            </button>
+                                            <button
+                                              type="button"
+                                              onClick={() => handleRefundEscrow(tx.id)}
+                                              className="h-7 px-2.5 rounded-lg bg-red-500/20 hover:bg-red-500/35 border border-red-500/40 hover:border-red-500/60 text-[9px] font-bold text-red-400 active:scale-95 transition-all cursor-pointer"
+                                            >
+                                              Resolve: Refund
+                                            </button>
+                                          </>
+                                        )}
+                                        {userRole === "auto" && m.submitted_at > 0 && !m.is_disputed && (
+                                          <button
+                                            type="button"
+                                            onClick={() => handleAutoReleaseMilestone(tx.id, mIdx)}
+                                            className="h-7 px-2.5 rounded-lg bg-violet-500/20 hover:bg-violet-500/35 border border-violet-500/40 hover:border-violet-500/60 text-[9px] font-bold text-violet-400 active:scale-95 transition-all cursor-pointer"
+                                          >
+                                            Trigger Auto-Release
+                                          </button>
+                                        )}
+                                      </div>
                                     )}
-                                </div>
-                              ))}
+                                  </div>
+                                );
+                              })}
                             </div>
 
                             {/* Refund button: visible for expired escrows (or simulated expired) with pending milestones */}
