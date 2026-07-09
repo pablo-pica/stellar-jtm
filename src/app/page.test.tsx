@@ -14,6 +14,9 @@ vi.mock("@/hooks/useStellarWallet", () => ({
     disconnect: () => {},
     sendXLM: () => {},
     routePayment: () => {},
+    routeToEscrow: () => {},
+    releaseMilestone: () => {},
+    refundEscrow: () => {},
   }),
 }));
 
@@ -50,5 +53,42 @@ describe("Dashboard Page Background Style & Layout Tests", () => {
     expect(fileContent).toContain('className="space-y-2 min-w-0"');
     // The left child of the network environment card flexbox must have min-w-0
     expect(fileContent).toContain('className="min-w-0"');
+  });
+
+  it("should render the AI Smart Assist Console when AI is enabled", () => {
+    const filePath = path.resolve(__dirname, "./page.tsx");
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+
+    expect(fileContent).toContain("AI Smart Assist Console");
+    expect(fileContent).toContain("Parse Command");
+    expect(fileContent).toContain("parseAiIntent");
+  });
+
+  it("should render the path routing visualization with cost comparison", () => {
+    const filePath = path.resolve(__dirname, "./page.tsx");
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+
+    expect(fileContent).toContain("Router Route Path");
+    expect(fileContent).toContain("Exchange rate");
+    expect(fileContent).toContain("Transaction Fees Savings");
+    expect(fileContent).toContain("Wise / Western Union");
+  });
+
+  it("should render the milestones ledger in the activity feed with Release/Refund actions", () => {
+    const filePath = path.resolve(__dirname, "./page.tsx");
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+
+    expect(fileContent).toContain("Milestones Ledger");
+    expect(fileContent).toContain("Release");
+    expect(fileContent).toContain("Refund Expired Escrow");
+  });
+
+  it("should display custom slippage and network selectors in Settings Tab", () => {
+    const filePath = path.resolve(__dirname, "./page.tsx");
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+
+    expect(fileContent).toContain("Custom Slippage");
+    expect(fileContent).toContain("Futurenet");
+    expect(fileContent).toContain("Local");
   });
 });
