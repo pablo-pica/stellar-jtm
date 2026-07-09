@@ -13,9 +13,10 @@ describe("MilestoneBuilder Component Tests", () => {
     const filePath = path.resolve(__dirname, "./MilestoneBuilder.tsx");
     const fileContent = fs.readFileSync(filePath, "utf-8");
 
-    // The component must contain visual elements like Auto-Balance, Milestone Editor
+    // The component must contain visual elements like Auto-Balance, Milestone Editor, Split Evenly
     expect(fileContent).toContain("Milestone Editor");
     expect(fileContent).toContain("Auto-Balance");
+    expect(fileContent).toContain("Split Evenly");
     expect(fileContent).toContain("Add Milestone");
     expect(fileContent).toContain("totalBps === 10000");
   });
@@ -31,9 +32,10 @@ describe("MilestoneBuilder Component Tests", () => {
     expect(fileContent).toContain("flex-1 min-w-0 h-10 bg-slate-900 border border-slate-800 focus:border-teal-500/35 rounded-xl px-3 text-xs");
 
     // Weight input width and styling
-    expect(fileContent).toContain("w-[110px] shrink-0");
+    expect(fileContent).toContain("flex items-center gap-1.5 shrink-0");
+    expect(fileContent).toContain("w-[116px]");
     expect(fileContent).toContain("<CustomNumberInput");
-    expect(fileContent).toContain("suffix=\"%\"");
+    expect(fileContent).toContain("text-xs text-slate-500 font-mono select-none");
     expect(fileContent).toContain("compact={true}");
 
     // Remove button small trash icon

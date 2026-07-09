@@ -7,7 +7,7 @@ This is a living document updated autonomously by agents at the end of each task
 ## ⚡ Active Task
 
 ```yaml
-Current Task: "Custom Milestone Weights Input Implementation"
+Current Task: "Milestone Editor & Tab View Segregation UI Overhaul"
 Assigned Agent: Builder
 Status: "Completed"
 ```
@@ -93,6 +93,13 @@ Status: "Completed"
 ## 📜 Audit Logs
 
 ### 2026-07-10
+- **Builder**: Implemented Segmented View toggles in EscrowTab and fixed MilestoneBuilder spacing/overlap issues:
+  1. Unified Auto-balance labeling in MilestoneBuilder: renamed the manual button to "Split Evenly" while keeping the toggle switch labeled "Auto-Balance".
+  2. Fixed weight percentage overlap in MilestoneBuilder: removed the inner `suffix` prop from `CustomNumberInput` and rendered it in an outer span to its right.
+  3. Introduced `escrowView` state toggle in `EscrowTab` and integrated a SegmentedControl to allow users to toggle between Create Lock and Active Escrows.
+  4. Wrapped the creation form and active escrow panel inside conditional view blocks based on the `escrowView` state.
+  5. Updated test assertions in `MilestoneBuilder.test.tsx` and `EscrowTab.test.tsx`, and verified all 53 unit tests pass successfully.
+- **Checker**: Executed compliance audit for the active task 'Custom Milestone Weights Input Implementation'. Verified 11/11 Soroban contract tests (`cargo test`) in `contracts/aethyr-router` and 52/52 frontend unit/integration tests (`npm run test`) pass successfully. Verified `npm run lint` compiles cleanly with no static check warnings. Executed Playwright mobile UI verification on `http://localhost:3000` to confirm correct layout, responsive viewport, navigation tabs, header rendering, and wallet modal. Automatically captured and updated all 6 responsive UI screenshots in `docs/assets/`. Git repository contains 88 conventional commits (exceeding the 10+ target). Active Task is complete, pending final user walkthrough video, remote repository push, and Vercel release build.
 - **Builder**: Implemented custom plus/minus buttons for milestone weights using CustomNumberInput in MilestoneBuilder:
   1. Updated CustomNumberInput.tsx to support the `compact` property which dynamically updates sizing (w-8 h-8, rounded-lg, text-xs, h-8, gap-1.5, right-2).
   2. Integrated CustomNumberInput in MilestoneBuilder.tsx with the weight inputs.

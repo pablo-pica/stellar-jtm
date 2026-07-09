@@ -55,4 +55,22 @@ describe("EscrowTab Component Layout & Action Tests", () => {
     expect(fileContent).toContain("border-l border-space-800");
     expect(fileContent).toContain("dotColor");
   });
+
+  it("should implement escrowView state toggle, SegmentedControl for Create vs Active views, and conditional panels", () => {
+    const filePath = path.resolve(__dirname, "./EscrowTab.tsx");
+    const fileContent = fs.readFileSync(filePath, "utf-8");
+
+    // State toggle initialization
+    expect(fileContent).toContain("const [escrowView, setEscrowView] = useState");
+    expect(fileContent).toContain("escrows.length > 0 ? \"active\" : \"create\"");
+
+    // SegmentedControl for Create Lock vs Active Escrows
+    expect(fileContent).toContain("idPrefix=\"escrow-view\"");
+    expect(fileContent).toContain("label: \"Create Lock\", value: \"create\"");
+    expect(fileContent).toContain("label: \"Active Escrows\", value: \"active\"");
+
+    // Conditional panel rendering
+    expect(fileContent).toContain("escrowView === \"create\" && (");
+    expect(fileContent).toContain("escrowView === \"active\" && (");
+  });
 });

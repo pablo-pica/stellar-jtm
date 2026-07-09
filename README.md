@@ -14,7 +14,7 @@
   <img src="https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=nextdotjs" alt="Next.js">
   <img src="https://img.shields.io/badge/Tailwind-v4-38bdf8?style=flat-square&logo=tailwindcss" alt="Styling">
   <img src="https://img.shields.io/badge/Rust%20Tests-11%2F11%20Passed-green?style=flat-square&logo=rust" alt="Rust Tests">
-  <img src="https://img.shields.io/badge/Vitest-51%2F51%20Passed-green?style=flat-square&logo=vitest" alt="Vitest Tests">
+  <img src="https://img.shields.io/badge/Vitest-53%2F53%20Passed-green?style=flat-square&logo=vitest" alt="Vitest Tests">
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License">
 </p>
 
@@ -56,7 +56,7 @@ Traditional international remittance networks impose significant overhead throug
 * 🤖 **AI Intent Parser**: Gemini-powered natural language bar that converts human commands (e.g., *"Pay 100 XLM to GA... for Milestone 1"*) into structured transaction payloads.
 * 📱 **PWA-Ready Layout**: Full-bleed mobile UI with safe-area notch handling, glassmorphic drawers, and a desktop phone-shell mockup.
 * 🏗️ **Visual Milestone Builder**: Drag-and-edit milestone card editor for composing AI-drafted escrow milestones before on-chain submission.
-* 🧪 **51 passing Vitest tests** covering AI parsing, page integration, component rendering, and API route logic.
+* 🧪 **53 passing Vitest tests** covering AI parsing, page integration, component rendering, and API route logic.
 * 🔒 **Pre-commit security hooks** scanning for Stellar private key leaks and running full test suites before every commit.
 
 ---

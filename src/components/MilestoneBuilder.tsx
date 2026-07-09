@@ -123,7 +123,7 @@ export default function MilestoneBuilder({ milestones, onChange }: MilestoneBuil
             className={`text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
           >
             <Scale className="w-3.5 h-3.5" />
-            Auto-Balance
+            Split Evenly
           </button>
         </div>
       </div>
@@ -171,17 +171,19 @@ export default function MilestoneBuilder({ milestones, onChange }: MilestoneBuil
               />
 
               {/* Weight input container */}
-              <div className="w-[110px] shrink-0">
-                <CustomNumberInput
-                  value={Number((m.payout_weight / 100).toFixed(2)).toString()}
-                  onChange={(val) => handleUpdateWeight(idx, val)}
-                  min={0}
-                  max={100}
-                  step={1}
-                  suffix="%"
-                  disabled={autoBalance}
-                  compact={true}
-                />
+              <div className="flex items-center gap-1.5 shrink-0">
+                <div className="w-[116px]">
+                  <CustomNumberInput
+                    value={Number((m.payout_weight / 100).toFixed(2)).toString()}
+                    onChange={(val) => handleUpdateWeight(idx, val)}
+                    min={0}
+                    max={100}
+                    step={1}
+                    disabled={autoBalance}
+                    compact={true}
+                  />
+                </div>
+                <span className="text-xs text-slate-500 font-mono select-none">%</span>
               </div>
 
               {/* Remove button */}
