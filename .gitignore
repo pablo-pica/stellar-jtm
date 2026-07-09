@@ -31,3 +31,6 @@ Cargo.lock
 # Playwright MCP files
 .playwright-mcp/
 
+# Playwright test results
+test-results/
+
