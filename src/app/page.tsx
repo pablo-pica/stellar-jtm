@@ -140,7 +140,18 @@ export default function Dashboard() {
     if (isConnected && address === "GBZXN7PIRZGNMHGA7MUUUF4GWPY5ALY4UV2GL6VJGIQRXFDNMADIXXXX") {
       setTransactions(MOCK_TRANSACTIONS);
     } else {
-      setTransactions([]);
+      if (typeof window !== "undefined") {
+        const saved = window.localStorage.getItem("aethyr_transactions");
+        if (saved) {
+          try {
+            setTransactions(JSON.parse(saved));
+            return;
+          } catch (e) {
+            console.error("Failed to parse transactions", e);
+          }
+        }
+      }
+      setTransactions((prev) => prev.filter(tx => tx.id !== "tx-1" && tx.id !== "tx-2"));
     }
   }, [isConnected, address]);
 
@@ -286,6 +297,30 @@ export default function Dashboard() {
 
   // Dynamic Transaction Log
   const [transactions, setTransactions] = useState<TransactionItem[]>([]);
+
+  // Load transactions from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = window.localStorage.getItem("aethyr_transactions");
+      if (saved) {
+        try {
+          setTransactions(JSON.parse(saved));
+        } catch (e) {
+          console.error("Failed to parse transactions", e);
+        }
+      }
+    }
+  }, []);
+
+  // Save real transactions to localStorage whenever they change
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const realTransactions = transactions.filter(
+        (tx) => tx.id !== "tx-1" && tx.id !== "tx-2"
+      );
+      window.localStorage.setItem("aethyr_transactions", JSON.stringify(realTransactions));
+    }
+  }, [transactions]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
