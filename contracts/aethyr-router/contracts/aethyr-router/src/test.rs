@@ -188,7 +188,7 @@ fn test_route_to_escrow() {
     // 6. Verify escrow creation details
     let escrow = escrow_client.get_escrow(&escrow_id).unwrap();
     assert_eq!(escrow.amount, 630);
-    assert_eq!(escrow.sender, router_address);
+    assert_eq!(escrow.sender, source);
     assert_eq!(escrow.receiver, receiver);
     assert_eq!(escrow.token, token_out_addr);
     assert_eq!(escrow.milestones.len(), 2);

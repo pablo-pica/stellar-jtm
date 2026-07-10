@@ -392,7 +392,7 @@ export default function Dashboard() {
       const slipVal = parseFloat(slippage) || 1.0;
       const minAmountOut = (parseFloat(escrowAmount) * (100 - slipVal) / 100).toFixed(7);
       
-      const escrowContract = process.env.NEXT_PUBLIC_ESCROW_CONTRACT_ID || "CAZYRJXKZXTXJKTYVWCRD5WHMARZZOPLCA3RPB4HKWF2DTYPVT3XID65";
+      const escrowContract = process.env.NEXT_PUBLIC_ESCROW_CONTRACT_ID || "CD734V7PATOR7NW7APYQLUNEON2GZ7EUBM27MFQO3WDQZGCPKIWB6NOT";
       const result = await routeToEscrow(escrowContract, escrowRecipient, path, escrowAmount, minAmountOut, escrowMilestones);
       const hash = result.hash;
 

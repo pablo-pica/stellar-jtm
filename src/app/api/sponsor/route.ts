@@ -57,8 +57,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid transaction type for fee sponsorship" }, { status: 400 });
     }
 
-    const allowedEscrowId = process.env.NEXT_PUBLIC_ESCROW_CONTRACT_ID || "CAZYRJXKZXTXJKTYVWCRD5WHMARZZOPLCA3RPB4HKWF2DTYPVT3XID65";
-    const allowedRouterId = process.env.NEXT_PUBLIC_ROUTER_CONTRACT_ID || "CA4IPUOL5U5T7LBZRGM476BSJPN2KQUW6D4AVSYDJK2RMVY6EAS7ONQR";
+    const allowedEscrowId = process.env.NEXT_PUBLIC_ESCROW_CONTRACT_ID || "CD734V7PATOR7NW7APYQLUNEON2GZ7EUBM27MFQO3WDQZGCPKIWB6NOT";
+    const allowedRouterId = process.env.NEXT_PUBLIC_ROUTER_CONTRACT_ID || "CA5ZEROS4VGIOZ2MIDVV7C7W4DFKWE76P4KBG455KO26RPKD2W3TC6MM";
 
     for (const op of innerTx.operations) {
       if (op.type !== "invokeHostFunction") {

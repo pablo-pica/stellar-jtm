@@ -43,6 +43,7 @@ pub trait AethyrEscrowTrait {
     fn create_escrow(
         env: Env,
         sender: Address,
+        funding_src: Address,
         receiver: Address,
         token: Address,
         amount: i128,
@@ -122,6 +123,7 @@ impl AethyrEscrowTrait for AethyrEscrow {
     fn create_escrow(
         env: Env,
         sender: Address,
+        funding_src: Address,
         receiver: Address,
         token: Address,
         amount: i128,
@@ -129,6 +131,11 @@ impl AethyrEscrowTrait for AethyrEscrow {
     ) -> BytesN<32> {
         // require_auth on sender
         sender.require_auth();
+
+        // require_auth on funding_src if it is different from sender
+        if funding_src != sender {
+            funding_src.require_auth();
+        }
 
         if amount <= 0 {
             panic!("Escrow amount must be positive");
@@ -155,13 +162,13 @@ impl AethyrEscrowTrait for AethyrEscrow {
             panic!("Total milestone weight must be exactly 10000 basis points");
         }
 
-        // Transfer tokens from sender to this contract
+        // Transfer tokens from funding_src to this contract
         let token_client = token::Client::new(&env, &token);
-        token_client.transfer(&sender, &env.current_contract_address(), &amount);
+        token_client.transfer(&funding_src, &env.current_contract_address(), &amount);
 
         use soroban_sdk::xdr::ToXdr;
         // Generate deterministic unique escrow ID by hashing the inputs
-        let salt_data = (sender.clone(), receiver.clone(), token.clone(), amount, milestones.clone());
+        let salt_data = (sender.clone(), funding_src.clone(), receiver.clone(), token.clone(), amount, milestones.clone());
         let escrow_id: BytesN<32> = env.crypto().sha256(&salt_data.to_xdr(&env)).into();
 
         let escrow = Escrow {

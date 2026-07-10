@@ -48,7 +48,7 @@ fn test_milestone_release_flow() {
     let milestones = vec![&env, m1, m2];
 
     // 4. Create escrow
-    let escrow_id = client.create_escrow(&sender, &receiver, &token_addr, &10000, &milestones);
+    let escrow_id = client.create_escrow(&sender, &sender, &receiver, &token_addr, &10000, &milestones);
 
     // Assert funds are locked in the contract
     assert_eq!(token_client.balance(&sender), 0);
@@ -116,7 +116,7 @@ fn test_refund_flow_success() {
     };
     let milestones = vec![&env, m1];
 
-    let escrow_id = client.create_escrow(&sender, &receiver, &token_addr, &10000, &milestones);
+    let escrow_id = client.create_escrow(&sender, &sender, &receiver, &token_addr, &10000, &milestones);
 
     // Advance time beyond lock period (30 days = 2,592,000 seconds)
     // 100000 + 2592000 = 2692000
@@ -170,7 +170,7 @@ fn test_refund_flow_fails_before_expiration() {
     };
     let milestones = vec![&env, m1];
 
-    let escrow_id = client.create_escrow(&sender, &receiver, &token_addr, &10000, &milestones);
+    let escrow_id = client.create_escrow(&sender, &sender, &receiver, &token_addr, &10000, &milestones);
 
     // Try to refund immediately - should panic because lock has not expired
     client.refund_escrow(&escrow_id, &sender);
@@ -213,7 +213,7 @@ fn test_dispute_and_auto_release_flow() {
     };
     let milestones = vec![&env, m1, m2];
 
-    let escrow_id = client.create_escrow(&sender, &receiver, &token_addr, &10000, &milestones);
+    let escrow_id = client.create_escrow(&sender, &sender, &receiver, &token_addr, &10000, &milestones);
 
     // Initial checks
     let escrow = client.get_escrow(&escrow_id).unwrap();
@@ -294,7 +294,7 @@ fn test_auto_release_fails_not_submitted() {
     };
     let milestones = vec![&env, m1];
 
-    let escrow_id = client.create_escrow(&sender, &receiver, &token_addr, &10000, &milestones);
+    let escrow_id = client.create_escrow(&sender, &sender, &receiver, &token_addr, &10000, &milestones);
 
     client.auto_release_milestone(&escrow_id, &0);
 }
@@ -330,7 +330,7 @@ fn test_auto_release_fails_before_time() {
     };
     let milestones = vec![&env, m1];
 
-    let escrow_id = client.create_escrow(&sender, &receiver, &token_addr, &10000, &milestones);
+    let escrow_id = client.create_escrow(&sender, &sender, &receiver, &token_addr, &10000, &milestones);
 
     let submit_time = 100000;
     env.ledger().with_mut(|li| {
@@ -378,7 +378,7 @@ fn test_auto_release_fails_if_disputed() {
     };
     let milestones = vec![&env, m1];
 
-    let escrow_id = client.create_escrow(&sender, &receiver, &token_addr, &10000, &milestones);
+    let escrow_id = client.create_escrow(&sender, &sender, &receiver, &token_addr, &10000, &milestones);
 
     let submit_time = 100000;
     env.ledger().with_mut(|li| {

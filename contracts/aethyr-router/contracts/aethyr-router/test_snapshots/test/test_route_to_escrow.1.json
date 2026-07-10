@@ -243,6 +243,124 @@
                 }
               },
               "sub_invocations": []
+            },
+            {
+              "function": {
+                "contract_fn": {
+                  "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFCT4",
+                  "function_name": "create_escrow",
+                  "args": [
+                    {
+                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOLZM"
+                    },
+                    {
+                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM"
+                    },
+                    {
+                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARQG5"
+                    },
+                    {
+                      "address": "CACMVW2KK4H5FZDFF2AUCAKQTEJMZZWJUIZF23XMRVYQBSXYLHZ6BKWN"
+                    },
+                    {
+                      "i128": "630"
+                    },
+                    {
+                      "vec": [
+                        {
+                          "map": [
+                            {
+                              "key": {
+                                "symbol": "description"
+                              },
+                              "val": {
+                                "symbol": "design"
+                              }
+                            },
+                            {
+                              "key": {
+                                "symbol": "is_completed"
+                              },
+                              "val": {
+                                "bool": false
+                              }
+                            },
+                            {
+                              "key": {
+                                "symbol": "is_disputed"
+                              },
+                              "val": {
+                                "bool": false
+                              }
+                            },
+                            {
+                              "key": {
+                                "symbol": "payout_weight"
+                              },
+                              "val": {
+                                "u32": 5000
+                              }
+                            },
+                            {
+                              "key": {
+                                "symbol": "submitted_at"
+                              },
+                              "val": {
+                                "u64": "0"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "map": [
+                            {
+                              "key": {
+                                "symbol": "description"
+                              },
+                              "val": {
+                                "symbol": "impl"
+                              }
+                            },
+                            {
+                              "key": {
+                                "symbol": "is_completed"
+                              },
+                              "val": {
+                                "bool": false
+                              }
+                            },
+                            {
+                              "key": {
+                                "symbol": "is_disputed"
+                              },
+                              "val": {
+                                "bool": false
+                              }
+                            },
+                            {
+                              "key": {
+                                "symbol": "payout_weight"
+                              },
+                              "val": {
+                                "u32": 5000
+                              }
+                            },
+                            {
+                              "key": {
+                                "symbol": "submitted_at"
+                              },
+                              "val": {
+                                "u64": "0"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "sub_invocations": []
             }
           ]
         }
@@ -382,7 +500,7 @@
                     "symbol": "Escrow"
                   },
                   {
-                    "bytes": "ea84a0a8ac967760a19b8b9e678faaf32538d3afe1af209701f053aa50591f73"
+                    "bytes": "9c880adcf4a559e9d1a53c33b733ea7d1aa0bffce5cb4ee5f2537366597a1f26"
                   }
                 ]
               },
@@ -523,7 +641,7 @@
                       "symbol": "sender"
                     },
                     "val": {
-                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2KM"
+                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOLZM"
                     }
                   },
                   {

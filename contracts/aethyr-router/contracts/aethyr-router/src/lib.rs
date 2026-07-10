@@ -195,9 +195,11 @@ impl AethyrRouterTrait for AethyrRouter {
             }),
         ]);
 
-        // 7. Call create_escrow on the escrow contract, passing the router contract as the sender.
+        // 7. Call create_escrow on the escrow contract, passing the original client source as the sender,
+        // and the router contract (this_contract) as the funding source.
         let escrow_client = AethyrEscrowClient::new(&env, &escrow_contract);
         let escrow_id = escrow_client.create_escrow(
+            &source,
             &this_contract,
             &receiver,
             &token_out,

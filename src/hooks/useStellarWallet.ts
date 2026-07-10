@@ -409,7 +409,7 @@ export function useStellarWallet() {
 
     try {
       getKit();
-      const contractId = process.env.NEXT_PUBLIC_ROUTER_CONTRACT_ID || "CA4IPUOL5U5T7LBZRGM476BSJPN2KQUW6D4AVSYDJK2RMVY6EAS7ONQR";
+      const contractId = process.env.NEXT_PUBLIC_ROUTER_CONTRACT_ID || "CA5ZEROS4VGIOZ2MIDVV7C7W4DFKWE76P4KBG455KO26RPKD2W3TC6MM";
 
       // 1. Load sender account
       const account = await horizonServer.loadAccount(currentAddress);
@@ -577,7 +577,7 @@ export function useStellarWallet() {
 
     try {
       getKit();
-      const contractId = process.env.NEXT_PUBLIC_ROUTER_CONTRACT_ID || "CA4IPUOL5U5T7LBZRGM476BSJPN2KQUW6D4AVSYDJK2RMVY6EAS7ONQR";
+      const contractId = process.env.NEXT_PUBLIC_ROUTER_CONTRACT_ID || "CA5ZEROS4VGIOZ2MIDVV7C7W4DFKWE76P4KBG455KO26RPKD2W3TC6MM";
 
       const account = await horizonServer.loadAccount(currentAddress);
       const fee = await horizonServer.fetchBaseFee();
