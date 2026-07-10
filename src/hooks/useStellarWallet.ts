@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { StellarWalletsKit, KitEventType, Networks as SWKNetworks } from "@creit.tech/stellar-wallets-kit";
 import { defaultModules } from "@creit.tech/stellar-wallets-kit/modules/utils";
 import { Horizon, Networks, TransactionBuilder, Asset, Operation, Address, nativeToScVal, scValToNative, rpc, Contract, xdr } from "@stellar/stellar-sdk";
+import { sanitizeSymbol } from "@/lib/utils";
 
 
 const HORIZON_URL = "https://horizon-testnet.stellar.org";
@@ -602,7 +603,7 @@ export function useStellarWallet() {
         return xdr.ScVal.scvMap([
           new xdr.ScMapEntry({
             key: xdr.ScVal.scvSymbol("description"),
-            val: xdr.ScVal.scvSymbol(milestone.description),
+            val: xdr.ScVal.scvSymbol(sanitizeSymbol(milestone.description)),
           }),
           new xdr.ScMapEntry({
             key: xdr.ScVal.scvSymbol("is_completed"),
