@@ -2,12 +2,10 @@
 
 This is a living document updated autonomously by agents at the end of each task or turn. It serves as the single source of truth for current project status.
 
----
-
-## ⚡ Active Task
+-## ⚡ Active Task
 
 ```yaml
-Current Task: "AI Assist Sparkles Animation Consistency"
+Current Task: "AI Assist Accordion Animation in SendTab"
 Assigned Agent: Builder
 Status: "Completed"
 ```
@@ -92,6 +90,7 @@ Status: "Completed"
 ## 📜 Audit Logs
 
 ### 2026-07-10
+- **Builder**: Refactored the AI Smart Strip collapsible container in SendTab.tsx to use a clean accordion animation approach with motion.div, keeping the header button always visible, and wrapping details with AnimatePresence. Tested and verified 55/55 frontend tests and 11 cargo test cases pass successfully.
 - **Builder**: Updated the Sparkles icon's animation when the AI Assist strip is collapsed in SendTab.tsx to use the premium animate-pulse-glow class for visual consistency. All Vitest unit tests pass and ESLint runs cleanly.
 - **Builder**: Implemented layout and fade-in animations for the AI Smart Strip, collapsed AI Assist button, expanded console container, and hover scale/tap animations for the Expand label and Parse Command button using framer-motion in SendTab.tsx. All 55 Vitest unit tests pass and compile cleanly.
 - **Builder**: Refactored expanded details motion.div in ActivityTab.tsx to prevent layout jumps by moving layout/design padding, border, and typography classes into an inner wrapper div, keeping the animation smooth.
