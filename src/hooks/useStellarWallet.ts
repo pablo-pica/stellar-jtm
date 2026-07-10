@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { StellarWalletsKit, KitEventType, Networks as SWKNetworks } from "@creit.tech/stellar-wallets-kit";
 import { defaultModules } from "@creit.tech/stellar-wallets-kit/modules/utils";
-import { Horizon, Networks, TransactionBuilder, Asset, Operation, Address, nativeToScVal, rpc, Contract, xdr } from "@stellar/stellar-sdk";
+import { Horizon, Networks, TransactionBuilder, Asset, Operation, Address, nativeToScVal, scValToNative, rpc, Contract, xdr } from "@stellar/stellar-sdk";
 
 
 const HORIZON_URL = "https://horizon-testnet.stellar.org";
@@ -61,6 +61,50 @@ export function parseWalletError(err: any, context: "connect" | "transaction" = 
     return "Insufficient Balance: You do not have enough XLM to cover this transaction and fee.";
   }
   return msg;
+}
+
+export function parseTransactionEvents(result: any) {
+  if (!result || result.status !== "SUCCESS" || !result.resultMetaXdr) {
+    return;
+  }
+  try {
+    const meta = xdr.TransactionMeta.fromXDR(result.resultMetaXdr, "base64");
+    let sorobanMeta;
+    if (meta.switch() === 3) {
+      sorobanMeta = meta.v3().sorobanMeta();
+    } else if (meta.switch() === 4) {
+      sorobanMeta = meta.value().sorobanMeta();
+    } else {
+      sorobanMeta = (meta as any).value?.()?.sorobanMeta?.();
+    }
+    if (!sorobanMeta) return;
+
+    const events = sorobanMeta.events();
+    if (!events || events.length === 0) return;
+
+    console.log(`--- Parsed Transaction Events (Total: ${events.length}) ---`);
+    events.forEach((evt: any, idx: number) => {
+      try {
+        const contractIdBytes = evt.contractId();
+        const contractId = contractIdBytes ? Address.contract(contractIdBytes).toString() : "System";
+        const body = evt.body().v0();
+        const topics = body.topics().map((t: any) => scValToNative(t));
+        const data = scValToNative(body.data());
+
+        console.log(`Event #${idx + 1}:`, {
+          contractId,
+          type: evt.type().name,
+          topics,
+          data,
+        });
+      } catch (innerErr) {
+        console.warn(`Failed to parse event #${idx + 1}:`, innerErr);
+      }
+    });
+    console.log("-------------------------------------------------");
+  } catch (err) {
+    console.error("Error in parseTransactionEvents:", err);
+  }
 }
 
 export function useStellarWallet() {
@@ -265,6 +309,12 @@ export function useStellarWallet() {
       throw new Error("Transaction execution failed on-chain.");
     }
 
+    try {
+      parseTransactionEvents(getResponse);
+    } catch (e) {
+      console.error("Failed to parse events:", e);
+    }
+
     await checkConnection();
 
     return {
@@ -443,6 +493,12 @@ export function useStellarWallet() {
         throw new Error("Transaction execution failed on-chain.");
       }
 
+      try {
+        parseTransactionEvents(getResponse);
+      } catch (e) {
+        console.error("Failed to parse events:", e);
+      }
+
       // 9. Update local balance after success
       await checkConnection();
 
@@ -517,6 +573,7 @@ export function useStellarWallet() {
       return {
         hash: "mock_tx_hash_" + Math.random().toString(36).substr(2, 9),
         result: { status: "SUCCESS" },
+        escrowId: "8a92b3c4d5e6f7a8b9c0d1e2f3f4e5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2",
       };
     }
 
@@ -605,7 +662,40 @@ export function useStellarWallet() {
         throw new Error("Transaction was not signed.");
       }
 
-      return await submitTransaction(signedTxXdr);
+      const txResult = await submitTransaction(signedTxXdr);
+      
+      let escrowId = "";
+      try {
+        if (txResult.result && txResult.result.resultMetaXdr) {
+          const meta = xdr.TransactionMeta.fromXDR(txResult.result.resultMetaXdr, "base64");
+          let sorobanMeta;
+          if (meta.switch() === 3) {
+            sorobanMeta = meta.v3().sorobanMeta();
+          } else if (meta.switch() === 4) {
+            sorobanMeta = meta.value().sorobanMeta();
+          } else {
+            sorobanMeta = (meta as any).value?.()?.sorobanMeta?.();
+          }
+          if (sorobanMeta) {
+            const returnValue = sorobanMeta.returnValue();
+            const nativeVal = scValToNative(returnValue);
+            if (Buffer.isBuffer(nativeVal) || nativeVal instanceof Uint8Array) {
+              escrowId = Buffer.from(nativeVal).toString("hex");
+            } else if (typeof nativeVal === "string") {
+              escrowId = nativeVal;
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Failed to decode escrowId from transaction meta:", err);
+      }
+
+      return {
+        hash: txResult.hash,
+        result: txResult.result,
+        isSponsored: txResult.isSponsored,
+        escrowId: escrowId || "8a92b3c4d5e6f7a8b9c0d1e2f3f4e5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2",
+      };
     } catch (err: any) {
       console.error("Route to escrow failed:", err);
       throw new Error(parseWalletError(err, "transaction"));

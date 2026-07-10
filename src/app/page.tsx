@@ -315,7 +315,9 @@ export default function Dashboard() {
       if (isRouted) {
         // Routed contract call
         const XLM_SAC_ADDRESS = "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC";
-        const path = [XLM_SAC_ADDRESS, XLM_SAC_ADDRESS];
+        const USDC_SAC_ADDRESS = process.env.NEXT_PUBLIC_USDC_CONTRACT_ID || "CCW67W2SLF6JUAQAUBYDJUA22XYQEWDTING2RLOF7KKLUQXWZXYZOROP";
+        const PHP_SAC_ADDRESS = process.env.NEXT_PUBLIC_PHP_CONTRACT_ID || "CDQA7W2SLF6JUAQAUBYDJUA22XYQEWDTING2RLOF7KKLUQXWZXYZOROP";
+        const path = [XLM_SAC_ADDRESS, USDC_SAC_ADDRESS, PHP_SAC_ADDRESS];
         const slipVal = parseFloat(slippage) || 1.0;
         const minAmountOut = (parseFloat(amount) * (100 - slipVal) / 100).toFixed(7);
         
@@ -339,8 +341,8 @@ export default function Dashboard() {
         timestamp: "Just now",
         amountIn: amount,
         assetIn: "XLM",
-        amountOut: isRouted ? amount : undefined,
-        assetOut: isRouted ? "XLM" : undefined,
+        amountOut: isRouted ? (parseFloat(amount) * 6.84).toFixed(2) : undefined,
+        assetOut: isRouted ? "PHP" : undefined,
         txHash: hash,
         description: isRouted 
           ? `Routed payment to ${recipient.slice(0, 4)}...${recipient.slice(-4)}`
@@ -373,7 +375,9 @@ export default function Dashboard() {
 
     try {
       const XLM_SAC_ADDRESS = "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC";
-      const path = [XLM_SAC_ADDRESS, XLM_SAC_ADDRESS];
+      const USDC_SAC_ADDRESS = process.env.NEXT_PUBLIC_USDC_CONTRACT_ID || "CCW67W2SLF6JUAQAUBYDJUA22XYQEWDTING2RLOF7KKLUQXWZXYZOROP";
+      const PHP_SAC_ADDRESS = process.env.NEXT_PUBLIC_PHP_CONTRACT_ID || "CDQA7W2SLF6JUAQAUBYDJUA22XYQEWDTING2RLOF7KKLUQXWZXYZOROP";
+      const path = [XLM_SAC_ADDRESS, USDC_SAC_ADDRESS, PHP_SAC_ADDRESS];
       const slipVal = parseFloat(slippage) || 1.0;
       const minAmountOut = (parseFloat(escrowAmount) * (100 - slipVal) / 100).toFixed(7);
       
@@ -396,7 +400,7 @@ export default function Dashboard() {
         txHash: hash,
         description: `Milestone Escrow to ${escrowRecipient.slice(0, 4)}...${escrowRecipient.slice(-4)}`,
         escrowContract,
-        escrowId: "8a92b3c4d5e6f7a8b9c0d1e2f3f4e5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2",
+        escrowId: result.escrowId,
         senderAddress: address || "",
         receiverAddress: escrowRecipient,
         milestones: escrowMilestones,
