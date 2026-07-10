@@ -19,8 +19,8 @@ test("Verify mobile dashboard rendering and captures", async ({ page }) => {
   await expect(bottomNav).toBeVisible();
   
   // Take screenshot of the initial state (disconnected/welcome screen)
-  await page.screenshot({ path: "docs/assets/screen1.png" });
-  console.log("Captured docs/assets/screen1.png");
+  await page.screenshot({ path: "test-results/screenshots/screen1.png" });
+  console.log("Captured test-results/screenshots/screen1.png");
 
   // Let's connect the mock wallet if possible or inspect the connect button
   const connectBtn = page.locator("button:has-text('Connect Wallet'), [data-testid='connect-wallet-btn']");
@@ -31,8 +31,8 @@ test("Verify mobile dashboard rendering and captures", async ({ page }) => {
   await page.waitForTimeout(1000);
 
   // Take screenshot of wallet connection picker modal
-  await page.screenshot({ path: "docs/assets/screen2.png" });
-  console.log("Captured docs/assets/screen2.png");
+  await page.screenshot({ path: "test-results/screenshots/screen2.png" });
+  console.log("Captured test-results/screenshots/screen2.png");
 
   // Let's click Freighter or Mock connection (if available) to connect
   const mockOption = page.locator("button:has-text('Sandbox Mode'), button:has-text('Freighter'), [data-testid='sandbox-connect']");
@@ -50,8 +50,8 @@ test("Verify mobile dashboard rendering and captures", async ({ page }) => {
   }
 
   // Take screenshot of connected state
-  await page.screenshot({ path: "docs/assets/screen3.png" });
-  console.log("Captured docs/assets/screen3.png");
+  await page.screenshot({ path: "test-results/screenshots/screen3.png" });
+  console.log("Captured test-results/screenshots/screen3.png");
 
   // Navigate to Send tab if it's a tab interface (it should be on SendTab by default)
   // Let's switch to Escrow tab
@@ -59,8 +59,8 @@ test("Verify mobile dashboard rendering and captures", async ({ page }) => {
   if (await escrowTabBtn.count() > 0) {
     await escrowTabBtn.first().click();
     await page.waitForTimeout(500);
-    await page.screenshot({ path: "docs/assets/screen5.png" });
-    console.log("Captured docs/assets/screen5.png");
+    await page.screenshot({ path: "test-results/screenshots/screen5.png" });
+    console.log("Captured test-results/screenshots/screen5.png");
   }
 
   // Switch to Activity tab
@@ -68,8 +68,23 @@ test("Verify mobile dashboard rendering and captures", async ({ page }) => {
   if (await activityTabBtn.count() > 0) {
     await activityTabBtn.first().click();
     await page.waitForTimeout(500);
-    await page.screenshot({ path: "docs/assets/screen6.png" });
-    console.log("Captured docs/assets/screen6.png");
+    await page.screenshot({ path: "test-results/screenshots/screen6.png" });
+    console.log("Captured test-results/screenshots/screen6.png");
+
+    // Click on a transaction item to expand it
+    const txCard = page.locator("[data-testid='tx-card-tx-1']");
+    if (await txCard.count() > 0) {
+      console.log("Found transaction card, clicking to expand...");
+      await txCard.first().click();
+      await page.waitForTimeout(600); // wait for framer-motion slide animation
+      await page.screenshot({ path: "test-results/screenshots/screen6_expanded.png" });
+      console.log("Captured test-results/screenshots/screen6_expanded.png");
+
+      // Verify the details are visible and clean
+      const fromDetail = page.locator("text=GBRPYHIL2CIYAOSRIWRMQHEBOZJ7PAGB37NMQ22FQGSNLUY65VOUAIV2").first();
+      await expect(fromDetail).toBeVisible();
+      console.log("Expanded details verified successfully");
+    }
   }
 
   // Switch to Settings tab
@@ -77,7 +92,23 @@ test("Verify mobile dashboard rendering and captures", async ({ page }) => {
   if (await settingsTabBtn.count() > 0) {
     await settingsTabBtn.first().click();
     await page.waitForTimeout(500);
-    await page.screenshot({ path: "docs/assets/screen5_settings.png" });
-    console.log("Captured docs/assets/screen5_settings.png");
+    await page.screenshot({ path: "test-results/screenshots/screen5_settings.png" });
+    console.log("Captured test-results/screenshots/screen5_settings.png");
+
+    // Click Custom slippage
+    const customSlippageBtn = page.locator("[data-testid='segmented-option-Custom']");
+    if (await customSlippageBtn.count() > 0) {
+      await customSlippageBtn.first().click();
+      await page.waitForTimeout(500);
+      console.log("Clicked Custom Slippage option");
+      
+      // Let's verify the CustomNumberInput is visible
+      const customSlippageInput = page.locator("[data-testid='settings-slippage-group'] input");
+      await expect(customSlippageInput).toBeVisible();
+      
+      // Take screenshot with Custom Slippage visible
+      await page.screenshot({ path: "test-results/screenshots/screen5_settings_custom.png" });
+      console.log("Captured test-results/screenshots/screen5_settings_custom.png");
+    }
   }
 });

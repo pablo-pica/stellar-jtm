@@ -124,6 +124,7 @@ RULES:
    - Use `browser_resize` to verify the mobile viewport (390x844).
    - Use `browser_snapshot` to inspect the DOM and verify that the landing header, active tabs (Send, Activity, Settings), and the wallet connect buttons are present and visible.
    - If needed, run inline JS using `browser_run_code_unsafe` to verify drawer/dialog toggle functionality.
+   - Save any validation/debugging screenshots to the gitignored `test-results/screenshots/` folder. Do NOT overwrite README assets in `docs/assets/`.
 6. Check if Vercel deployment config is correct.
 7. Edit docs/PROGRESS.md and mark met items with [x] and unmet items with [ ].
 8. If any check fails, append a detailed "⚠️ WARNING" section to the bottom of docs/PROGRESS.md explaining what is missing.
