@@ -35,8 +35,11 @@ Traditional international remittance networks impose significant overhead throug
 
 ### Smart Contract System (Soroban / Rust)
 * 🔐 **Aethyr Router Contract** — Multi-hop DEX routing with atomic swaps and direct escrow funding.
-  * **Address**: [`CDXZR77ODWNHHP5BR4BCSRS66FNHQQMUGEHGEFTX2IK4HWOAMC43ZERO`](https://stellar.expert/explorer/testnet/contract/CDXZR77ODWNHHP5BR4BCSRS66FNHQQMUGEHGEFTX2IK4HWOAMC43ZERO)
-  * **Deployment Tx**: [`ed188ca...`](https://stellar.expert/explorer/testnet/tx/ed188ca785a3c129d2c450c387a094f44657ec63cad4be87e4a035a9646f4103)
+  * **Address**: [`CA4IPUOL5U5T7LBZRGM476BSJPN2KQUW6D4AVSYDJK2RMVY6EAS7ONQR`](https://stellar.expert/explorer/testnet/contract/CA4IPUOL5U5T7LBZRGM476BSJPN2KQUW6D4AVSYDJK2RMVY6EAS7ONQR)
+  * **Deployment Tx**: [`e0502cb2c64f17...`](https://stellar.expert/explorer/testnet/tx/e0502cb2c64f17161d8492737ee5a657481c1cc86671d49ba61bd6de7b5ab035)
+* 🔐 **Aethyr Escrow Contract** — Milestone escrow contract invoked by Router.
+  * **Address**: [`CCJ7DVF32OZI5KTUOQPY5JIJJVK2HYU7YTOW6QMNIMAVIBMU77T7GNPM`](https://stellar.expert/explorer/testnet/contract/CCJ7DVF32OZI5KTUOQPY5JIJJVK2HYU7YTOW6QMNIMAVIBMU77T7GNPM)
+  * **Deployment Tx**: [`18913ea4d46d2f...`](https://stellar.expert/explorer/testnet/tx/18913ea4d46d2f6f13d101d64674dae7a437480d23851301565a27c6b68251e2)
 * 🔐 **Aethyr Escrow Contract** — Freelancer milestone escrows with:
   * **Milestone submission** by freelancers with on-chain timestamp tracking.
   * **Client dispute** flags that block auto-release.
@@ -224,7 +227,7 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 | # | Requirement | Status | Evidence |
 |:-:|:-----------|:------:|:---------|
 | 1 | Error handling for 3+ transaction error types | ✅ | [`useStellarWallet.ts`](./src/hooks/useStellarWallet.ts) — handles: **Wallet not found**, **User rejected**, **Insufficient balance** |
-| 2 | Deploy a Soroban smart contract to Testnet | ✅ | Router contract: [`CDXZR77...ZERO`](https://stellar.expert/explorer/testnet/contract/CDXZR77ODWNHHP5BR4BCSRS66FNHQQMUGEHGEFTX2IK4HWOAMC43ZERO) |
+| 2 | Deploy a Soroban smart contract to Testnet | ✅ | Router contract: [`CA4IPUO...NQR`](https://stellar.expert/explorer/testnet/contract/CA4IPUOL5U5T7LBZRGM476BSJPN2KQUW6D4AVSYDJK2RMVY6EAS7ONQR) |
 | 3 | Call a contract function from the frontend | ✅ | [`useStellarWallet.ts`](./src/hooks/useStellarWallet.ts) — `routeToEscrow()`, `releaseMilestone()`, etc. invoke Soroban |
 | 4 | Multi-wallet integration (StellarWalletsKit) | ✅ | [`useStellarWallet.ts`](./src/hooks/useStellarWallet.ts) — initializes `StellarWalletsKit` with `defaultModules()` (Freighter, Albedo, xBull) |
 | 5 | Display contract tx status (pending/success/fail) | ✅ | [`page.tsx`](./src/app/page.tsx) — status badges + toast notifications for all contract operations |
@@ -233,8 +236,8 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 
 | Artifact | Value |
 |:---------|:------|
-| **Deployed Contract Address** | [`CDXZR77ODWNHHP5BR4BCSRS66FNHQQMUGEHGEFTX2IK4HWOAMC43ZERO`](https://stellar.expert/explorer/testnet/contract/CDXZR77ODWNHHP5BR4BCSRS66FNHQQMUGEHGEFTX2IK4HWOAMC43ZERO) |
-| **Deployment Tx Hash** | [`ed188ca785a3c1...`](https://stellar.expert/explorer/testnet/tx/ed188ca785a3c129d2c450c387a094f44657ec63cad4be87e4a035a9646f4103) |
+| **Deployed Contract Address** | [`CA4IPUOL5U5T7LBZRGM476BSJPN2KQUW6D4AVSYDJK2RMVY6EAS7ONQR`](https://stellar.expert/explorer/testnet/contract/CA4IPUOL5U5T7LBZRGM476BSJPN2KQUW6D4AVSYDJK2RMVY6EAS7ONQR) |
+| **Deployment Tx Hash** | [`e0502cb2c64f17...`](https://stellar.expert/explorer/testnet/tx/e0502cb2c64f17161d8492737ee5a657481c1cc86671d49ba61bd6de7b5ab035) |
 | **Frontend Invocation Tx Hash** | [`cf417f87e58e3a...`](https://stellar.expert/explorer/testnet/tx/cf417f87e58e3a4cc53d4ee572115474afea0568609fbde6e49df2d8c5d14623) |
 | **Commit Count** | 65+ conventional commits ([`git log`](https://github.com/pablo-pica/aethyr/commits/dev-branch)) |
 
@@ -280,7 +283,7 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 
 | Artifact | Value |
 |:---------|:------|
-| **Verified Escrow Contract** | [`CDXZR77ODWNHHP5BR4BCSRS66FNHQQMUGEHGEFTX2IK4HWOAMC43ZERO`](https://stellar.expert/explorer/testnet/contract/CDXZR77ODWNHHP5BR4BCSRS66FNHQQMUGEHGEFTX2IK4HWOAMC43ZERO) |
+| **Verified Escrow Contract** | [`CCJ7DVF32OZI5KTUOQPY5JIJJVK2HYU7YTOW6QMNIMAVIBMU77T7GNPM`](https://stellar.expert/explorer/testnet/contract/CCJ7DVF32OZI5KTUOQPY5JIJJVK2HYU7YTOW6QMNIMAVIBMU77T7GNPM) |
 | **Inter-Contract Call Tx Hash** | [`cf417f87e58e3a4cc53d4ee572115474afea0568609fbde6e49df2d8c5d14623`](https://stellar.expert/explorer/testnet/tx/cf417f87e58e3a4cc53d4ee572115474afea0568609fbde6e49df2d8c5d14623) |
 
 #### Submission Assets
