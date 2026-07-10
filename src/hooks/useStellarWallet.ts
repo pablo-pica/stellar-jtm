@@ -156,7 +156,7 @@ export function useStellarWallet() {
         getKit();
         if (walletId) {
           await StellarWalletsKit.setWallet(walletId);
-          const res = await StellarWalletsKit.getAddress();
+          const res = await StellarWalletsKit.fetchAddress();
           address = res.address;
         } else {
           const res = await StellarWalletsKit.authModal();
