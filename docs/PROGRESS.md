@@ -5,7 +5,7 @@ This is a living document updated autonomously by agents at the end of each task
 ## ⚡ Active Task
 
 ```yaml
-Current Task: "AI Assist Hover Unified Capsule Styling"
+Current Task: "AI Assist Hover Scale Removal"
 Assigned Agent: Builder
 Status: "Completed"
 ```
@@ -90,6 +90,7 @@ Status: "Completed"
 ## 📜 Audit Logs
 
 ### 2026-07-10
+- **Builder**: Removed hover/tap scale transitions from the Expand/Collapse span and Parse Command button in SendTab.tsx, converting them to standard HTML elements to eliminate float hover scale transitions on interactive controls. Verified that all 55 Vitest unit tests pass and ESLint runs cleanly.
 - **Builder**: Updated the AI Smart Strip styles in SendTab.tsx to apply the hover transitions directly to the entire outer container capsule card and removed the hover background, hover border, and hover shadow styling from the toggle button itself to create a unified capsule hover state and prevent rendering overlaps.
 - **Checker**: Successfully completed the audit for "Audit: AI Assist Accordion Animation in SendTab". Verified 11/11 Soroban smart contract tests (`cargo test`) and 55/55 frontend unit/integration tests (`npm run test`) pass. Ran Playwright browser verification on local dev server `http://localhost:3000` with 390x844 mobile viewport, confirming smooth accordion animation transitions on SendTab's AI Assist panel and ActivityTab's transaction card, and verified that the Sparkles icon on the header uses `animate-pulse-glow`.
 - **Builder**: Refactored the AI Smart Strip collapsible container in SendTab.tsx to use a clean accordion animation approach with motion.div, keeping the header button always visible, and wrapping details with AnimatePresence. Tested and verified 55/55 frontend tests and 11 cargo test cases pass successfully.

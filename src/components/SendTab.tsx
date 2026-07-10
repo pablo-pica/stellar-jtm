@@ -144,13 +144,9 @@ export default function SendTab({
               </span>
             </div>
             <div className="flex items-center gap-1.5">
-              <motion.span
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="text-[10px] text-teal-400 font-bold inline-block"
-              >
+              <span className="text-[10px] text-teal-400 font-bold inline-block">
                 {aiExpanded ? "Collapse" : "Expand"}
-              </motion.span>
+              </span>
               <ChevronDown
                 className={`w-3.5 h-3.5 text-teal-400 transition-transform duration-200 shrink-0 ${
                   aiExpanded ? "rotate-180" : ""
@@ -177,16 +173,14 @@ export default function SendTab({
                     rows={2}
                     className="w-full p-2.5 rounded-xl bg-space-950/80 border border-space-700/60 focus:border-teal-500/30 text-xs text-slate-100 placeholder-slate-500 outline-none resize-none transition-all"
                   />
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
+                  <button
                     type="button"
                     onClick={handleAiParse}
                     className="w-full h-9 rounded-lg bg-teal-500/10 border border-teal-500/30 hover:bg-teal-500/20 text-xs font-bold text-teal-400 transition-all cursor-pointer flex items-center justify-center gap-1"
                   >
                     <Sparkles className="w-3.5 h-3.5" />
                     Parse Command
-                  </motion.button>
+                  </button>
                 </div>
               </motion.div>
             )}
