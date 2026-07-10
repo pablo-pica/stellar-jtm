@@ -129,13 +129,13 @@ export default function SendTab({
       {/* 2. AI Smart Strip (Teal-tinted glass card, collapsible) */}
       {isAiEnabled && isConnected && txStatus === "idle" && (
         <div
-          className="rounded-xl border border-teal-500/15 bg-teal-950/10 backdrop-blur-md overflow-hidden hover:border-teal-500/25 transition-colors duration-200"
+          className="rounded-xl border border-teal-500/15 hover:border-teal-500/35 bg-teal-950/10 hover:bg-teal-950/15 backdrop-blur-md overflow-hidden transition-all duration-200 hover:shadow-[0_0_12px_rgba(45,212,191,0.04)]"
           data-testid="ai-smart-strip"
         >
           <button
             type="button"
             onClick={() => setAiExpanded(!aiExpanded)}
-            className="w-full h-12 px-4 flex items-center justify-between text-xs text-slate-300 hover:text-slate-100 focus-ring cursor-pointer border border-transparent hover:bg-teal-500/10 hover:border-teal-500/30 transition-all duration-200 hover:shadow-[0_0_12px_rgba(45,212,191,0.08)]"
+            className="w-full h-12 px-4 flex items-center justify-between text-xs text-slate-300 hover:text-slate-100 focus-ring cursor-pointer transition-colors duration-200"
           >
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-teal-400 animate-pulse-glow" />
