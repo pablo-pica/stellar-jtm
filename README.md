@@ -14,7 +14,7 @@
   <img src="https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=nextdotjs" alt="Next.js">
   <img src="https://img.shields.io/badge/Tailwind-v4-38bdf8?style=flat-square&logo=tailwindcss" alt="Styling">
   <img src="https://img.shields.io/badge/Rust%20Tests-11%2F11%20Passed-green?style=flat-square&logo=rust" alt="Rust Tests">
-  <img src="https://img.shields.io/badge/Vitest-55%2F55%20Passed-green?style=flat-square&logo=vitest" alt="Vitest Tests">
+  <img src="https://img.shields.io/badge/Vitest-59%2F59%20Passed-green?style=flat-square&logo=vitest" alt="Vitest Tests">
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License">
 </p>
 
@@ -59,7 +59,7 @@ Traditional international remittance networks impose significant overhead throug
 * 🤖 **AI Intent Parser**: Gemini-powered natural language bar that converts human commands (e.g., *"Pay 100 XLM to GA... for Milestone 1"*) into structured transaction payloads.
 * 📱 **PWA-Ready Layout**: Full-bleed mobile UI with safe-area notch handling, glassmorphic drawers, and a desktop phone-shell mockup.
 * 🏗️ **Visual Milestone Builder**: Drag-and-edit milestone card editor for composing AI-drafted escrow milestones before on-chain submission.
-* 🧪 **55 passing Vitest tests** covering AI parsing, page integration, component rendering, and API route logic.
+* 🧪 **59 passing Vitest tests** covering AI parsing, page integration, component rendering, and API route logic.
 * 🔒 **Pre-commit security hooks** scanning for Stellar private key leaks and running full test suites before every commit.
 
 ---
@@ -267,7 +267,7 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 | 3 | **Mobile-responsive PWA** with safe-area notch | ✅ | [`globals.css`](./src/styles/globals.css) — `env(safe-area-inset-*)` + [`page.tsx`](./src/app/page.tsx) — max-width 420px phone shell |
 | 4 | **Error handling & state indicators** | ✅ | Loading spinners, skeleton UI, toast notifications throughout [`page.tsx`](./src/app/page.tsx) and [`WalletConnect.tsx`](./src/components/WalletConnect.tsx) |
 | 5a | **Smart contract tests** (Rust) | ✅ | **11 tests passing**: 7 in [`test.rs (Escrow)`](./contracts/aethyr-router/contracts/aethyr-escrow/src/test.rs) + 4 in [`test.rs (Router)`](./contracts/aethyr-router/contracts/aethyr-router/src/test.rs) |
-| 5b | **Frontend tests** (Vitest) | ✅ | **55 tests passing** across 17 files |
+| 5b | **Frontend tests** (Vitest) | ✅ | **59 tests passing** across 17 files |
 | 6 | **Production-ready architecture** | ✅ | Gasless relayer with contract whitelisting, rate limiting, 30-day refund lock, dust-truncation fix — see [Security Model](#-security-model) |
 
 #### Codebase Requirements
@@ -292,7 +292,7 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 |:------|:----------:|
 | **Mobile viewport** — responsive UI on small screen | <img src="docs/assets/screen1.png" width="220" alt="Mobile Viewport"> |
 | **GitHub Actions CI/CD** — green/passing pipeline | *📸 [Pending: push to GitHub, then screenshot the Actions tab]* |
-| **Test suite output** — 11 Rust + 55 Vitest passing | *📸 [Pending: screenshot terminal after running `cargo test` + `npm test`]* |
+| **Test suite output** — 11 Rust + 59 Vitest passing | *📸 [Pending: screenshot terminal after running `cargo test` + `npm test`]* |
 | **Video walkthrough** (1-2 min) | *🎥 [Pending: record and upload to Loom/YouTube]* |
 
 </details>
