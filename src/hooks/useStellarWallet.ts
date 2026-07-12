@@ -257,6 +257,7 @@ export function useStellarWallet() {
   const submitTransaction = useCallback(async (signedTxXdr: string) => {
     let txHash: string;
     let isSponsored = false;
+    let resultMetaXdr: string | undefined = undefined;
 
     // Try gasless fee-bump relayer first
     try {
@@ -269,6 +270,7 @@ export function useStellarWallet() {
       if (response.ok && data.success) {
         txHash = data.hash;
         isSponsored = true;
+        resultMetaXdr = data.resultXdr;
         console.log("Transaction sponsored successfully. Hash:", txHash);
       } else {
         console.warn("Sponsorship failed, falling back to direct submission:", data.error || "Unknown error");
@@ -297,31 +299,45 @@ export function useStellarWallet() {
       txHash = sendResponse.hash;
     }
 
-    // Poll for status
-    let getResponse = await rpcServer.getTransaction(txHash);
-    let retries = 0;
-    while (getResponse.status === "NOT_FOUND" && retries < 15) {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+    let getResponse: any = null;
+
+    if (!isSponsored) {
+      // Poll for status
       getResponse = await rpcServer.getTransaction(txHash);
-      retries++;
-    }
+      let retries = 0;
+      while (getResponse.status === "NOT_FOUND" && retries < 15) {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        getResponse = await rpcServer.getTransaction(txHash);
+        retries++;
+      }
 
-    if (getResponse.status === "FAILED") {
-      throw new Error("Transaction execution failed on-chain.");
-    }
+      if (getResponse.status === "FAILED") {
+        throw new Error("Transaction execution failed on-chain.");
+      }
 
-    try {
-      parseTransactionEvents(getResponse);
-    } catch (e) {
-      console.error("Failed to parse events:", e);
+      try {
+        parseTransactionEvents(getResponse);
+      } catch (e) {
+        console.error("Failed to parse events:", e);
+      }
+
+      resultMetaXdr = getResponse.resultMetaXdr;
+    } else if (resultMetaXdr) {
+      // Parse sponsored transaction events directly
+      try {
+        parseTransactionEvents({ status: "SUCCESS", resultMetaXdr });
+      } catch (e) {
+        console.error("Failed to parse events:", e);
+      }
     }
 
     await checkConnection();
 
     return {
       hash: txHash,
-      result: getResponse,
+      result: getResponse || { status: "SUCCESS", resultMetaXdr },
       isSponsored,
+      resultMetaXdr,
     };
   }, [checkConnection]);
 
@@ -661,8 +677,9 @@ export function useStellarWallet() {
       
       let escrowId = "";
       try {
-        if (txResult.result && (txResult.result as any).resultMetaXdr) {
-          const meta = xdr.TransactionMeta.fromXDR((txResult.result as any).resultMetaXdr, "base64") as any;
+        const metaXdr = txResult.resultMetaXdr || (txResult.result && (txResult.result as any).resultMetaXdr);
+        if (metaXdr) {
+          const meta = xdr.TransactionMeta.fromXDR(metaXdr, "base64") as any;
           let sorobanMeta;
           if (meta.switch() === 3) {
             sorobanMeta = meta.v3().sorobanMeta();
