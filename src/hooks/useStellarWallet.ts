@@ -69,7 +69,12 @@ export function parseTransactionEvents(result: any) {
     return;
   }
   try {
-    const meta = xdr.TransactionMeta.fromXDR(result.resultMetaXdr, "base64") as any;
+    let meta: any;
+    if (typeof result.resultMetaXdr === "string") {
+      meta = xdr.TransactionMeta.fromXDR(result.resultMetaXdr, "base64");
+    } else {
+      meta = result.resultMetaXdr;
+    }
     let sorobanMeta;
     if (meta.switch() === 3) {
       sorobanMeta = meta.v3().sorobanMeta();
@@ -679,7 +684,12 @@ export function useStellarWallet() {
       try {
         const metaXdr = txResult.resultMetaXdr || (txResult.result && (txResult.result as any).resultMetaXdr);
         if (metaXdr) {
-          const meta = xdr.TransactionMeta.fromXDR(metaXdr, "base64") as any;
+          let meta: any;
+          if (typeof metaXdr === "string") {
+            meta = xdr.TransactionMeta.fromXDR(metaXdr, "base64");
+          } else {
+            meta = metaXdr;
+          }
           let sorobanMeta;
           if (meta.switch() === 3) {
             sorobanMeta = meta.v3().sorobanMeta();
