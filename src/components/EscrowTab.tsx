@@ -43,6 +43,7 @@ interface EscrowTabProps {
   handleReleaseMilestone: (txId: string, idx: number) => Promise<void>;
   handleDisputeMilestone: (txId: string, idx: number) => Promise<void>;
   handleAutoReleaseMilestone: (txId: string, idx: number) => Promise<void>;
+  handleRefundEscrow: (txId: string) => Promise<void>;
   onCreateEscrow: (recipient: string, amount: string, milestones: Milestone[]) => Promise<void>;
   showToast: (msg: string, type: "success" | "error" | "info") => void;
   isAiEnabled?: boolean;
