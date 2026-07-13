@@ -135,6 +135,7 @@ export default function ActivityTab({
         >
           {transactions.map((tx) => {
             const isExpanded = expandedTxs[tx.id];
+            const hasDetails = !!(tx.senderAddress || tx.receiverAddress || tx.escrowContract || (tx.milestones && tx.milestones.length > 0));
             const leftBarColor = getLeftBarColor(tx.type);
             const badgeStyle = getBadgeStyles(tx.type);
 
@@ -142,8 +143,10 @@ export default function ActivityTab({
               <motion.div
                 key={tx.id}
                 variants={itemVariants}
-                onClick={() => toggleExpand(tx.id)}
-                className="relative rounded-xl glass-card hover:border-teal-500/25 transition-[border-color,background-color] duration-200 overflow-hidden flex flex-col cursor-pointer text-left focus-ring"
+                onClick={() => hasDetails && toggleExpand(tx.id)}
+                className={`relative rounded-xl glass-card hover:border-teal-500/25 transition-[border-color,background-color] duration-200 overflow-hidden flex flex-col ${
+                  hasDetails ? "cursor-pointer" : "cursor-default"
+                } text-left focus-ring`}
                 data-testid={`tx-card-${tx.id}`}
               >
                 {/* Left side indicator bar */}
@@ -178,11 +181,13 @@ export default function ActivityTab({
                           </div>
                         )}
                       </div>
-                      <ChevronDown
-                        className={`w-4 h-4 text-slate-400 transition-transform duration-250 shrink-0 ${
-                          isExpanded ? "rotate-180" : ""
-                        }`}
-                      />
+                      {hasDetails && (
+                        <ChevronDown
+                          className={`w-4 h-4 text-slate-400 transition-transform duration-250 shrink-0 ${
+                            isExpanded ? "rotate-180" : ""
+                          }`}
+                        />
+                      )}
                     </div>
                   </div>
 
@@ -275,7 +280,7 @@ export default function ActivityTab({
                                   return (
                                     <div key={idx} className="relative space-y-1 text-left">
                                       {/* Bullet dot */}
-                                      <div className={`absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full ${dotColor} border shadow-sm`} />
+                                      <div className={`absolute -left-[20px] top-1 w-2.5 h-2.5 rounded-full ${dotColor} border shadow-sm`} />
                                       
                                       <div className="flex justify-between items-baseline gap-2">
                                         <span className="font-bold text-slate-200 text-[10px]">{idx + 1}. {m.description}</span>
