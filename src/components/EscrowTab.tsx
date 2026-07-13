@@ -460,7 +460,7 @@ export default function EscrowTab({
                             >
                               <div className="px-5 pb-5 pt-4 border-t border-space-700/20 space-y-5 bg-space-950/15">
                                 {/* Milestones Vertical Timeline */}
-                                <div className="relative pl-6 space-y-6 text-left border-l border-space-800 ml-3 mt-2">
+                                <div className="relative pl-6 space-y-6 text-left border-l border-space-700/60 ml-3 mt-2">
                                   {escrow.milestones?.map((m, idx) => {
                                     const isCompleted = m.is_completed;
                                     const isDisputed = m.is_disputed;

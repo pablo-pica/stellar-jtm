@@ -253,7 +253,7 @@ export default function ActivityTab({
                           {tx.milestones && tx.milestones.length > 0 && (
                             <div className="mt-3 pt-3 border-t border-space-800/80 space-y-3">
                               <span className="text-slate-400 font-bold uppercase tracking-wider text-[8px] select-none">Milestones Timeline</span>
-                              <div className="relative pl-6 space-y-6 text-left border-l border-space-800 ml-3 mt-2">
+                              <div className="relative pl-6 space-y-6 text-left border-l border-space-700/60 ml-3 mt-2">
                                 {tx.milestones.map((m, idx) => {
                                   let statusText = "Pending";
                                   let statusColor = "text-slate-500";

@@ -52,7 +52,7 @@ describe("EscrowTab Component Layout & Action Tests", () => {
     expect(fileContent).toContain("text-xs text-slate-400 max-w-[240px]");
 
     // Vertical milestone timeline elements
-    expect(fileContent).toContain("border-l border-space-800");
+    expect(fileContent).toContain("border-l border-space-700/60");
     expect(fileContent).toContain("dotColor");
   });
 
