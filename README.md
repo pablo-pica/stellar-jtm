@@ -67,7 +67,7 @@ Traditional international remittance networks impose significant overhead throug
 ## 🎬 Live Demo & Presentation
 
 * 🌐 **Live Application**: [Aethyr on Vercel](https://aethyr-pica.vercel.app/)
-* 🎥 **Video Walkthrough**: [Local Walkthrough Video (MP4)](./docs/assets/video_demo.mp4)
+* 🎥 **Video Walkthrough**: [Aethyr Walkthrough Video (YouTube)](https://www.youtube.com/watch?v=F_bBEHbHh0A)
 
 ---
 
@@ -293,9 +293,14 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 | **Mobile viewport** — responsive UI on small screen | <img src="docs/assets/screen7.png" width="220" alt="Mobile Viewport"> |
 | **GitHub Actions CI/CD** — green/passing pipeline | <img src="docs/assets/screen8.png" width="220" alt="GitHub Actions CI/CD"> |
 | **Test suite output** — 11 Rust + 59 Vitest passing | <img src="docs/assets/screen9.png" width="220" alt="Test Suite Output"> |
-| **Video walkthrough** | [Walkthrough Video (MP4)](./docs/assets/video_demo.mp4) |
+| **Video walkthrough** | [Aethyr Walkthrough Video (YouTube)](https://www.youtube.com/watch?v=F_bBEHbHh0A) |
 
-#### Extra Showcase Views
+</details>
+
+### 🖼️ Visual Showcase — App Interface & Roles
+
+<details>
+<summary><strong>📱 Click to view additional screenshots</strong></summary>
 
 | View | Screenshot |
 |:-----|:----------:|
@@ -373,9 +378,9 @@ gantt
     section Completed
     White Belt :done, 2026-07-01, 2026-07-07
     Yellow Belt :done, 2026-07-08, 2026-07-09
-    Orange Belt :active, 2026-07-09, 2026-07-15
+    Orange Belt :done, 2026-07-09, 2026-07-15
     section Planned
-    Green Belt (SEP Standards) :2026-07-16, 2026-07-30
+    Green Belt (SEP Standards) :active, 2026-07-16, 2026-07-30
     Blue Belt (DEX Auto Routing) :2026-08-01, 2026-08-15
 ```
 
@@ -383,7 +388,7 @@ gantt
 |:-----|:------|:------:|
 | ⚪ White | Wallet connect, XLM transfers, PWA layout | ✅ Complete |
 | 🟡 Yellow | Soroban contracts, multi-wallet, error handling | ✅ Complete |
-| 🟠 Orange | Inter-contract calls, CI/CD, tests, gasless relayer | 🔧 In Progress |
+| 🟠 Orange | Inter-contract calls, CI/CD, tests, gasless relayer | ✅ Complete |
 | 🟢 Green | SEP-24/38 anchor integration, fiat on-ramps | 📋 Planned |
 | 🔵 Blue | DEX pathfinding engine, multi-hop routing | 📋 Planned |
 
