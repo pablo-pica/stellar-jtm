@@ -205,11 +205,11 @@ export default function ActivityTab({
                         href={`https://stellar.expert/explorer/testnet/tx/${tx.txHash}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-teal-400 hover:text-teal-300 hover:underline flex items-center gap-0.5 font-sans font-semibold transition-colors"
+                        className="text-teal-400 hover:text-teal-300 transition-colors p-1 -m-1 rounded hover:bg-space-800"
                         onClick={(e) => e.stopPropagation()}
+                        title="View on Stellar.expert"
                       >
-                        <span>Explorer ↗</span>
-                        <ExternalLink className="w-2.5 h-2.5" />
+                        <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     </div>
                   )}
@@ -253,34 +253,36 @@ export default function ActivityTab({
                           {tx.milestones && tx.milestones.length > 0 && (
                             <div className="mt-3 pt-3 border-t border-space-800/80 space-y-3">
                               <span className="text-slate-400 font-bold uppercase tracking-wider text-[8px] select-none">Milestones Timeline</span>
-                              <div className="relative pl-4 border-l border-space-700/60 space-y-3.5 mt-2 ml-2">
+                              <div className="relative pl-6 space-y-6 text-left border-l border-space-800 ml-3 mt-2">
                                 {tx.milestones.map((m, idx) => {
                                   let statusText = "Pending";
                                   let statusColor = "text-slate-500";
-                                  let dotColor = "bg-slate-700 border-space-800";
+                                  let dotColor = "bg-slate-500 shadow-[0_0_6px_rgba(100,116,139,0.3)]";
                                   let subTxHash = "";
 
                                   if (m.is_completed) {
                                     statusText = "Released";
                                     statusColor = "text-teal-400";
-                                    dotColor = "bg-teal-400 border-teal-500/20";
+                                    dotColor = "bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.5)]";
                                     subTxHash = m.releaseTxHash || "";
                                   } else if (m.is_disputed) {
                                     statusText = "Disputed";
                                     statusColor = "text-rose-400";
-                                    dotColor = "bg-rose-400 border-rose-500/20";
+                                    dotColor = "bg-rose-400 shadow-[0_0_8px_rgba(244,63,94,0.5)]";
                                     subTxHash = m.disputeTxHash || "";
                                   } else if (m.submitted_at > 0) {
                                     statusText = "Work Submitted";
                                     statusColor = "text-amber-400";
-                                    dotColor = "bg-amber-400 border-amber-500/20";
+                                    dotColor = "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.5)]";
                                     subTxHash = m.submitTxHash || "";
                                   }
 
                                   return (
-                                    <div key={idx} className="relative space-y-1 text-left">
-                                      {/* Bullet dot */}
-                                      <div className={`absolute -left-[20px] top-1 w-2.5 h-2.5 rounded-full ${dotColor} border shadow-sm`} />
+                                    <div key={idx} className="relative flex flex-col gap-1 group text-left">
+                                      {/* State-colored glowing dot indicator */}
+                                      <div className="absolute -left-[31px] top-1 flex items-center justify-center">
+                                        <span className={`w-3 h-3 rounded-full ${dotColor} border-2 border-space-950 transition-all`} />
+                                      </div>
                                       
                                       <div className="flex justify-between items-baseline gap-2">
                                         <span className="font-bold text-slate-200 text-[10px]">{idx + 1}. {m.description}</span>

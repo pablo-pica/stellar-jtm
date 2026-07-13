@@ -24,7 +24,7 @@ describe("ActivityTab Component Layout & Styling Tests", () => {
     // Transaction expansion details check
     expect(fileContent).toContain("expandedTxs");
     expect(fileContent).toContain("toggleExpand");
-    expect(fileContent).toContain("Explorer");
+    expect(fileContent).toContain("View on Stellar.expert");
 
     // Staggered list animations checks
     expect(fileContent).toContain("containerVariants");
