@@ -196,11 +196,11 @@ export default function EscrowTab({
           />
 
           {escrowView === "create" && (
-            <div className="p-5 rounded-2xl glass-card space-y-4 text-left">
+            <div className="space-y-6">
               {/* AI Smart Strip */}
               {isAiEnabled && (
                 <div
-                  className="rounded-xl border border-teal-500/15 hover:border-teal-500/35 bg-teal-950/10 hover:bg-teal-950/15 backdrop-blur-md overflow-hidden transition-all duration-200 hover:shadow-[0_0_12px_rgba(45,212,191,0.04)] mb-2"
+                  className="rounded-xl border border-teal-500/15 hover:border-teal-500/35 bg-teal-950/10 hover:bg-teal-950/15 backdrop-blur-md overflow-hidden transition-all duration-200 hover:shadow-[0_0_12px_rgba(45,212,191,0.04)]"
                   data-testid="ai-smart-strip-escrow"
                 >
                   <button
@@ -259,7 +259,8 @@ export default function EscrowTab({
                 </div>
               )}
 
-              <h4 className="text-base font-bold text-slate-200">Create Escrow Lock</h4>
+              <div className="p-5 rounded-2xl glass-card space-y-4 text-left" data-testid="escrow-create-form-card">
+                <h4 className="text-base font-bold text-slate-200">Create Escrow Lock</h4>
 
               <form onSubmit={handleCreateSubmit} className="space-y-4 pt-1">
                 <div className="space-y-1.5">
@@ -335,6 +336,7 @@ export default function EscrowTab({
                 </button>
               </form>
             </div>
+          </div>
           )}
 
           {escrowView === "active" && (
