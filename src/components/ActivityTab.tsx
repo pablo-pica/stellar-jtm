@@ -187,13 +187,25 @@ export default function ActivityTab({
                   </div>
 
                   {tx.txHash && (
-                    <div className="flex items-center gap-1.5 text-[9px] font-mono text-slate-400">
-                      <span>Hash:</span>
-                      <span className="text-slate-300 font-semibold">
-                        {tx.txHash.length > 12
-                          ? `${tx.txHash.slice(0, 4)}...${tx.txHash.slice(-4)}`
-                          : tx.txHash}
-                      </span>
+                    <div className="flex items-center justify-between w-full text-[9px] font-mono text-slate-400 mt-1 select-none">
+                      <div className="flex items-center gap-1.5">
+                        <span>Hash:</span>
+                        <span className="text-slate-300 font-semibold">
+                          {tx.txHash.length > 12
+                            ? `${tx.txHash.slice(0, 4)}...${tx.txHash.slice(-4)}`
+                            : tx.txHash}
+                        </span>
+                      </div>
+                      <a
+                        href={`https://stellar.expert/explorer/testnet/tx/${tx.txHash}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-teal-400 hover:text-teal-300 hover:underline flex items-center gap-0.5 font-sans font-semibold transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <span>Explorer ↗</span>
+                        <ExternalLink className="w-2.5 h-2.5" />
+                      </a>
                     </div>
                   )}
 
@@ -233,23 +245,10 @@ export default function ActivityTab({
                               </span>
                             </div>
                           )}
-                          {tx.txHash && (
-                            <div className="pt-1.5 flex justify-end">
-                              <a
-                                href={`https://stellar.expert/explorer/testnet/tx/${tx.txHash}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-1 h-7 px-2.5 rounded bg-space-800 hover:bg-space-700 border border-space-700/50 text-[9px] font-semibold text-teal-400 transition-colors"
-                              >
-                                <span>Explorer ↗</span>
-                              </a>
-                            </div>
-                          )}
-
                           {tx.milestones && tx.milestones.length > 0 && (
-                            <div className="mt-3.5 pt-3.5 border-t border-space-800/80 space-y-3">
+                            <div className="mt-3 pt-3 border-t border-space-800/80 space-y-3">
                               <span className="text-slate-400 font-bold uppercase tracking-wider text-[8px] select-none">Milestones Timeline</span>
-                              <div className="relative pl-5 border-l border-space-700/60 space-y-3.5 mt-2 ml-2">
+                              <div className="relative pl-4 border-l border-space-700/60 space-y-3.5 mt-2 ml-2">
                                 {tx.milestones.map((m, idx) => {
                                   let statusText = "Pending";
                                   let statusColor = "text-slate-500";
@@ -276,7 +275,7 @@ export default function ActivityTab({
                                   return (
                                     <div key={idx} className="relative space-y-1 text-left">
                                       {/* Bullet dot */}
-                                      <div className={`absolute -left-[25px] top-1 w-2.5 h-2.5 rounded-full ${dotColor} border shadow-sm`} />
+                                      <div className={`absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full ${dotColor} border shadow-sm`} />
                                       
                                       <div className="flex justify-between items-baseline gap-2">
                                         <span className="font-bold text-slate-200 text-[10px]">{idx + 1}. {m.description}</span>
