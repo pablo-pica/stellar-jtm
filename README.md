@@ -208,10 +208,10 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 
 | Asset | Screenshot |
 |:------|:----------:|
-| **Wallet connected** — public key/address visible | <img src="docs/assets/screen1.png" width="220" alt="Wallet Connected"> |
-| **XLM balance** displayed in UI | <img src="docs/assets/screen2.png" width="220" alt="XLM Balance"> |
-| **Successful testnet transaction** being executed | <img src="docs/assets/screen3.png" width="220" alt="Transaction Executing"> |
-| **Transaction result** — hash/confirmation shown | <img src="docs/assets/screen4.png" width="220" alt="Transaction Hash Result"> |
+| **Wallet connected** — profile drawer displaying connected address and balances | <img src="docs/assets/screen1.png" width="220" alt="Wallet Connected"> |
+| **XLM balance** — main balance card fetching live Stellar Testnet balance | <img src="docs/assets/screen2.png" width="220" alt="XLM Balance"> |
+| **Transaction executing** — broadcasting status screen while signing in Freighter | <img src="docs/assets/screen3.png" width="220" alt="Transaction Executing"> |
+| **Transaction result** — success screen showing confirmed transaction hash and explorer link | <img src="docs/assets/screen4.png" width="220" alt="Transaction Hash Result"> |
 
 </details>
 
@@ -245,8 +245,8 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 
 | Asset | Screenshot |
 |:------|:----------:|
-| **Multi-wallet modal** — Freighter, Albedo, xBull visible | <img src="docs/assets/screen5.png" width="240" alt="Multi-wallet Modal"> |
-| **Contract call status** — pending/success/fail feedback | <img src="docs/assets/screen6.png" width="240" alt="Contract Tx Status"> |
+| **Multi-wallet modal** — Freighter, Albedo, xBull selection drawer | <img src="docs/assets/screen5.png" width="240" alt="Multi-wallet Modal"> |
+| **DEX pathfinding route** — real-time path routing visualization (XLM ➔ USDC ➔ PHP) and fee analysis | <img src="docs/assets/screen6.png" width="240" alt="DEX Pathfinder Route"> |
 
 </details>
 
@@ -290,9 +290,9 @@ Each belt section below maps **1:1** against the [Belt Requirements](./docs/BELT
 
 | Asset | Screenshot |
 |:------|:----------:|
-| **Mobile viewport** — responsive UI on small screen | <img src="docs/assets/screen7.png" width="220" alt="Mobile Viewport"> |
-| **GitHub Actions CI/CD** — green/passing pipeline | <img src="docs/assets/screen8.png" width="220" alt="GitHub Actions CI/CD"> |
-| **Test suite output** — 11 Rust + 59 Vitest passing | <img src="docs/assets/screen9.png" width="220" alt="Test Suite Output"> |
+| **Milestone Activity timeline** — tracking status of released/pending milestones with transaction hashes | <img src="docs/assets/screen7.png" width="220" alt="Milestones Activity Timeline"> |
+| **GitHub Actions CI/CD** — green/passing build and test runs dashboard | <img src="docs/assets/screen8.png" width="220" alt="GitHub Actions CI/CD"> |
+| **Test suite output** — 11 Rust contract tests and 59 Vitest frontend tests passing in terminal | <img src="docs/assets/screen9.png" width="220" alt="Test Suite Output"> |
 | **Video walkthrough** | [Aethyr Walkthrough Video (YouTube)](https://www.youtube.com/watch?v=F_bBEHbHh0A) |
 
 </details>
